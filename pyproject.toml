@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "prefect-dbt-flow"
+version = "0.1.0"
+description = "Prefect - DBT integration"
+authors = [
+    "David Valdez <david@dataroots.io>",
+    "Nico Gelders <nico@dataroots.io>",
+]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+prefect = "^2.13.2"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.3.0"
+isort = "^5.10.1"
+pytest = "^7.3.1"
+pre-commit = "^3.3.2"
+ruff = "^0.0.270"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.isort]
+profile = "black"
