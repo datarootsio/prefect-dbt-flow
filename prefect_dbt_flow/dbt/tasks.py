@@ -3,7 +3,7 @@ from typing import List, Dict, Optional
 from prefect import task
 
 from prefect_dbt_flow.dbt import DbtNode
-from prefect_dbt_flow import cmd
+from prefect_dbt_flow.dbt import cmd
 
 DBT_RUN_EMOJI = "🏃"
 DBT_TEST_EMOJI = "🧪"

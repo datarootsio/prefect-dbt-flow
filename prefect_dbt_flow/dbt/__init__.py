@@ -10,7 +10,8 @@ class DbtProject:
 
 @dataclass
 class DbtProfile:
-    ...
+    name: str 
+    project_dir: str
 
 
 @dataclass
