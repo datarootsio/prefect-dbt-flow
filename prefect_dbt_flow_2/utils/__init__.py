@@ -10,6 +10,7 @@ class DbtConfig:
     dbt_project_dir: str
     dbt_profiles_dir: str
     dbt_target: str  #dev, prod, and others, better to leave it open ???
+    dbt_exe: str
     dbt_run_test_after_model: bool
     dbt_print_stauts:bool
 

@@ -3,22 +3,24 @@ from prefect import get_run_logger
 from typing import Dict
 
 from prefect_dbt_flow_2.utils.cmd import _run_cmd
-from prefect_dbt_flow_2.utils import DbtNode
+from prefect_dbt_flow_2.utils import DbtNode, DbtConfig
 
-def parse_dbt_nodes_info() -> Dict[str, DbtNode]:
+DBT_EXE = ?
+
+def parse_dbt_nodes_info(dbt_config: DbtConfig) -> Dict[str, DbtNode]:
     """
     Function to parse dbt nodes from the output of the `dbt ls` command.
     Returns a dictionary mapping unique IDs to DbtNode instances.
     """
     dbt_ls_command = [
-        DBT_EXE,
+        dbt_config.dbt_exe,
         "ls",
         "--project-dir",
-        str(DBT_PROJECT_DIR.absolute()),
+        dbt_config.dbt_project_dir,
         "--output",
         "json",
         "--profiles-dir",
-        str(DBT_PROJECT_DIR.absolute()),
+        dbt_config.dbt_profiles_dir,
     ]
     # print(f"\n---debug_parse_dbt_nodes_info__dbt_ls_command:\n{dbt_ls_command}")
     cmd_out = _run_cmd(dbt_ls_command)
@@ -34,7 +36,7 @@ def parse_dbt_nodes_info() -> Dict[str, DbtNode]:
                         unique_id=node_dict["unique_id"],
                         resource_type=node_dict["resource_type"],
                         depends_on=node_dict["depends_on"].get("nodes", []),
-                        file_path=DBT_PROJECT_DIR / node_dict["original_file_path"],
+                        file_path=dbt_config.dbt_project_dir / node_dict["original_file_path"],
                         tags=node_dict["tags"],
                         config=node_dict["config"],
                     )
@@ -42,5 +44,5 @@ def parse_dbt_nodes_info() -> Dict[str, DbtNode]:
             except json.decoder.JSONDecodeError:
                 get_run_logger().debug(f"Skipping line: {raw_dbt_node_data}")
                 print("error")
-
+#this gives out a dictionary of DbtNodes
     return dbt_nodes_info

@@ -2,31 +2,31 @@ from typing import List, Dict, Optional
 
 from prefect import task
 from prefect_dbt_flow_2.utils import DbtConfig, DbtNode
-
-# from prefect_dbt_flow.dbt import DbtNode, _run_cmd
-# from prefect_dbt_flow import cmd
+from prefect_dbt_flow_2.utils.cmd import _run_cmd
 
 DBT_RUN_EMOJI = "🏃"
 DBT_TEST_EMOJI = "🧪"
 
 
-def _task_dbt_run(dbt_node: DbtNode, task_kwargs: Optional[Dict] = None):
+def _task_dbt_run(dbt_node: DbtNode,
+                   dbt_config: DbtConfig,
+                   task_kwargs: Optional[Dict] = None):
     all_task_kwargs = {
         **(task_kwargs or {}),
-        "name": f"{DBT_RUN_EMOJI} {dbt_node.name}",
+        "name": f"{DBT_TEST_EMOJI} {dbt_node.name}",
     }
 
     @task(**all_task_kwargs)
     def dbt_run():
         dbt_run_command = [ #what about the other options of dbt run ?
-            DBT_EXE, #need to provide this
+            dbt_config.dbt_exe, #need to provide this
             "run",
             "-t",
-            "dev", #this should be and option [dev | prod]
+            dbt_config.dbt_target, #this should be and option [dev | prod]
             "--project-dir",
-            str(DBT_PROJECT_DIR.absolute()), #need to provide this env?
+            dbt_config.dbt_project_dir, #need to provide this env?
             "--profiles-dir",
-            str(DBT_PROJECT_DIR.absolute()), #neet to provide this env?
+            dbt_config.dbt_profiles_dir, #neet to provide this env?
             "-m",
             dbt_node.name,
         ]
@@ -35,7 +35,9 @@ def _task_dbt_run(dbt_node: DbtNode, task_kwargs: Optional[Dict] = None):
     return dbt_run
 
 
-def _task_dbt_test(dbt_node: DbtNode, task_kwargs: Optional[Dict] = None):
+def _task_dbt_test(dbt_node: DbtNode,
+                   dbt_config: DbtConfig,
+                   task_kwargs: Optional[Dict] = None):
     all_task_kwargs = {
         **(task_kwargs or {}),
         "name": f"{DBT_TEST_EMOJI} {dbt_node.name}",
@@ -44,14 +46,14 @@ def _task_dbt_test(dbt_node: DbtNode, task_kwargs: Optional[Dict] = None):
     @task(**all_task_kwargs)
     def dbt_test():
         dbt_run_command = [ #what about the other options of dbt test?
-            DBT_EXE, #need to provide this
+            dbt_config.dbt_exe, #need to provide this
             "test",
             "-t",
-            "dev", #this should be and option [dev | prod]
+            dbt_config.dbt_target, #this should be and option [dev | prod]
             "--project-dir",
-            str(DBT_PROJECT_DIR.absolute()), #need to provide this env?
+            dbt_config.dbt_project_dir, #need to provide this env?
             "--profiles-dir",
-            str(DBT_PROJECT_DIR.absolute()), #neet to provide this env?
+            dbt_config.dbt_profiles_dir, #neet to provide this env?
             "-m",
             dbt_node.name,
         ]
@@ -75,7 +77,7 @@ def generate_tasks_dag(
 
             dbt_config.dbt_target
             dbt_config.dbt_project_dir
-            dbt_config.dbt_project_dir
+            dbt_config.dbt_profiles_dir
             dbt_config.dbt_run_test_after_model
             _task_dbt_test()
 
@@ -87,7 +89,7 @@ def generate_tasks_dag(
 
             dbt_config.dbt_target
             dbt_config.dbt_project_dir
-            dbt_config.dbt_project_dir
+            dbt_config.dbt_profiles_dir
             dbt_config.dbt_run_test_after_model
             _task_dbt_run()
     
