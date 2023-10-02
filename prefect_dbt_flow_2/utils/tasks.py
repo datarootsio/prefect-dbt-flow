@@ -1,6 +1,7 @@
 from typing import List, Dict, Optional
 
 from prefect import task
+from prefect_dbt.cli.commands import trigger_dbt_cli_command
 from prefect_dbt_flow_2.utils import DbtConfig, DbtNode
 from prefect_dbt_flow_2.utils.cmd import _run_cmd
 
@@ -58,41 +59,53 @@ def _task_dbt_test(dbt_node: DbtNode,
             dbt_node.name,
         ]
         _run_cmd(dbt_run_command)
-    
+
 
     return dbt_test
 
+def geneate_tasks_dag(dbt_graph: list(DbtNode), dbt_config: DbtConfig):
+    for dbt_node in dbt_graph:
+        if dbt_config.dbt_run_test_after_model:
+            future_run = trigger_dbt_cli_command.with_options( #will create a prefect future
+                name=dbt_node.name,
+                # retries="", #Do we need this? it goes in dbt_config of prefect config?
+                # retry_delay_seconds="",
+            ).submint(
+                _task_dbt_run,
+                project_dir=dbt_config.dbt_project_dir,
+                dbt_cli_profile=dbt_config.dbt_profiles_dir,
+                overwrite_profiles=True, #Why do we do this?
+                wait_for=dbt_node.depends_on
+            )
+            state_run = future_run.wait()
 
-def generate_tasks_dag(
-    dbt_graph: List[DbtNode],
-    dbt_config=DbtConfig,
-):
-    dbt_tasks_dag = list()
+            future_test = trigger_dbt_cli_command.with_options( #will create a prefect future
+                name=dbt_node.name,
+                # retries="", #Do we need this? it goes in dbt_config of prefect config?
+                # retry_delay_seconds="",
+            ).submint(
+                _task_dbt_test,
+                project_dir=dbt_config.dbt_project_dir,
+                dbt_cli_profile=dbt_config.dbt_profiles_dir,
+                overwrite_profiles=True, #Why do we do this?
+                wait_for=[future_run, dbt_node.depends_on]
+            )
+            state_test = future_test.wait()
 
-    if dbt_config.dbt_run_test_after_model:
-        for node in dbt_graph:
-            node.name
-            node.resource_type
-            node.depends_on
+            return future_test
+        else:
+            future_run = trigger_dbt_cli_command.with_options( #will create a prefect future
+                name=dbt_node.name,
+                # retries="", #Do we need this? it goes in dbt_config of prefect config?
+                # retry_delay_seconds="",
+            ).submint(
+                _task_dbt_run,
+                project_dir=dbt_config.dbt_project_dir,
+                dbt_cli_profile=dbt_config.dbt_profiles_dir,
+                overwrite_profiles=True, #Why do we do this?
+                wait_for=dbt_node.depends_on
+            )
+            state_run = future_run.wait()
 
-            dbt_config.dbt_target
-            dbt_config.dbt_project_dir
-            dbt_config.dbt_profiles_dir
-            dbt_config.dbt_run_test_after_model
-            _task_dbt_test()
+            return future_run
 
-    else:
-        for node in dbt_graph:
-            node.name
-            node.resource_type
-            node.depends_on
-
-            dbt_config.dbt_target
-            dbt_config.dbt_project_dir
-            dbt_config.dbt_profiles_dir
-            dbt_config.dbt_run_test_after_model
-            _task_dbt_run()
-    
-
-    
-    return dbt_tasks_dag

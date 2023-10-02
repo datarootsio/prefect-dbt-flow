@@ -48,6 +48,7 @@ def dbt_flow( #What do we want as default values?
         )
 
         dbt_graph = graph.parse_dbt_nodes_info(dbt_config) #Why not inside of the flow?
+        #Return a list of DbtNodes
 
         tasks.geneate_tasks_dag(
             dbt_graph=dbt_graph,

@@ -33,7 +33,7 @@ def parse_dbt_nodes_info(dbt_config: DbtConfig) -> Dict[str, DbtNode]:
                 if node_dict["resource_type"] == "model" or node_dict["resource_type"] == "test":
                     dbt_node = DbtNode(
                         name=node_dict["name"],
-                        unique_id=node_dict["unique_id"],
+                        unique_id=node_dict["unique_id"], #model.prefect_dbt.my_first_dbt_model
                         resource_type=node_dict["resource_type"],
                         depends_on=node_dict["depends_on"].get("nodes", []),
                         file_path=dbt_config.dbt_project_dir / node_dict["original_file_path"],
@@ -44,5 +44,5 @@ def parse_dbt_nodes_info(dbt_config: DbtConfig) -> Dict[str, DbtNode]:
             except json.decoder.JSONDecodeError:
                 get_run_logger().debug(f"Skipping line: {raw_dbt_node_data}")
                 print("error")
-#this gives out a dictionary of DbtNodes
-    return dbt_nodes_info
+#this gives out a dictionary of {unique_id:DbtNode}
+    return dbt_nodes_info.values() #list of DbtNodes

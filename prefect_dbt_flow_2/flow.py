@@ -12,6 +12,7 @@ dev_flow = dbt_flow(
     dbt_print_stauts=True,
     flow_kwargs= {"name":"xxx1"}
 )
+# we can get the dbt_DAG from ls or manifest... where should we state that?
 
 prod_flow = dbt_flow(
     dbt_project_name="project_name",
