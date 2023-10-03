@@ -5,7 +5,6 @@ from typing import Dict
 from prefect_dbt_flow_2.utils.cmd import _run_cmd
 from prefect_dbt_flow_2.utils import DbtNode, DbtConfig
 
-DBT_EXE = ?
 
 def parse_dbt_nodes_info(dbt_config: DbtConfig) -> Dict[str, DbtNode]:
     """
@@ -44,5 +43,5 @@ def parse_dbt_nodes_info(dbt_config: DbtConfig) -> Dict[str, DbtNode]:
             except json.decoder.JSONDecodeError:
                 get_run_logger().debug(f"Skipping line: {raw_dbt_node_data}")
                 print("error")
-#this gives out a dictionary of {unique_id:DbtNode}
+    #dbt_nodes_info = { unique_id : DbtNode }
     return dbt_nodes_info.values() #list of DbtNodes
