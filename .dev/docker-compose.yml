@@ -1,0 +1,130 @@
+# Use postgres/example user/password credentials
+version: "3.1"
+
+services:
+  # DBT
+  db:
+    image: postgres:15.2-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: test_db
+    ports:
+      - 5432:5432
+    volumes:
+      - dbt-db:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4_container
+    restart: always
+    ports:
+      - "8080:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.admin
+      PGADMIN_DEFAULT_USER: admin
+      PGADMIN_DEFAULT_PASSWORD: admin
+
+  # Prefect
+  prefect-db:
+    image: postgres:15.2-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=prefect
+    expose:
+      - 5432
+    volumes:
+      - prefect-db:/var/lib/postgresql/data
+
+  minio:
+    image: minio/minio:latest
+    entrypoint:
+      [
+        "minio",
+        "server",
+        "--address",
+        "0.0.0.0:9000",
+        "--console-address",
+        "0.0.0.0:9001",
+        "/data",
+      ]
+    volumes:
+      - "minio:/data"
+    ports:
+      - 9000:9000
+      - 9001:9001
+
+  server:
+    build:
+      context: ../
+      dockerfile: ./.dev/Dockerfile
+    restart: always
+    volumes:
+      - prefect:/root/.prefect
+    entrypoint: ["/opt/prefect/entrypoint.sh", "prefect", "server", "start"]
+    environment:
+      - PREFECT_UI_URL=http://127.0.0.0:4200/api
+      - PREFECT_API_URL=http://127.0.0.1:4200/api
+      - PREFECT_SERVER_API_HOST=0.0.0.0
+      - PREFECT_API_prefect-db_CONNECTION_URL=postgresql+asyncpg://postgres:postgres@prefect-db:5432/prefect
+    ports:
+      - 4200:4200
+    depends_on:
+      - prefect-db
+
+  agent-1:
+    build:
+      context: ../
+      dockerfile: ./.dev/Dockerfile
+    restart: always
+    entrypoint:
+      [
+        "/opt/prefect/entrypoint.sh",
+        "prefect",
+        "agent",
+        "start",
+        "-q",
+        "default",
+      ]
+    environment:
+      - PREFECT_API_URL=http://server:4200/api
+
+  agent-2:
+    build:
+      context: ../
+      dockerfile: ./.dev/Dockerfile
+    restart: always
+    entrypoint:
+      [
+        "/opt/prefect/entrypoint.sh",
+        "prefect",
+        "agent",
+        "start",
+        "-q",
+        "default",
+      ]
+    environment:
+      - PREFECT_API_URL=http://server:4200/api
+
+  cli:
+    build:
+      context: ../
+      dockerfile: ./.dev/Dockerfile
+    entrypoint: "bash"
+    working_dir: "/root/flows"
+    volumes:
+      - "../examples/sample_project:/root/flows"
+    environment:
+      - PREFECT_API_URL=http://server:4200/api
+
+volumes:
+  prefect:
+  prefect-db:
+  dbt-db:
+  minio:
+networks:
+  default:
+    name: prefect-dbt-network

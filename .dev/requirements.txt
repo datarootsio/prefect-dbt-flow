@@ -1,0 +1,6 @@
+dbt-core==1.5.3
+dbt-postgres==1.5.3
+prefect
+prefect-aws
+s3fs
+poetry
