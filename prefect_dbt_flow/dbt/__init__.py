@@ -1,12 +1,13 @@
-from typing import List, Literal
+from typing import List, Literal, Union
 from dataclasses import dataclass
+from pathlib import Path
 
 
 @dataclass
 class DbtProject:
     name: str
-    project_dir: str
-    profiles_dir: str
+    project_dir: Union[str, Path]
+    profiles_dir: Union[str, Path]
 
 
 @dataclass
@@ -17,5 +18,7 @@ class DbtProfile:
 @dataclass
 class DbtNode:
     name: str
-    node_type: Literal["model", "test"]
-    depends_on: List["DbtNode"]
+    unique_id: str
+    resource_type: str
+    depends_on: List[str]
+    has_tests: bool = False

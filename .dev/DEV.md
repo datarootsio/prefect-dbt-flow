@@ -18,8 +18,8 @@ docker compose --file .dev/docker-compose.yml run cli
 ```
 
 ```bash
-to deploy run command in prefect cli container:
-docker-compose run cli
+# to deploy run command in prefect cli container:
+docker compose --file .dev/docker-compose.yml run cli
 
 prefect deployment build \
     -sb "remote-file-system/prefect-flows" \
@@ -30,11 +30,19 @@ prefect deployment build \
     "dbt_flow.py:run_dbt"
 ```
 
+## Testing from "outside" docker-compose
+
+```bash
+cd ./examples/sample_project
+poetry run dbt run -t test
+poetry run python my_dbt_flow.py
+```
+
 ## Deploy prefect flow
 
 ```bash
 # dbt_flow.py
-PREFECT_API_URL=http://localhost:4200/api prefect deployment build \
+prefect deployment build \
     -sb "remote-file-system/prefect-flows" \
     -n "dbt-test" \
     -q "default" \

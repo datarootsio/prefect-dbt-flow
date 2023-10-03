@@ -9,7 +9,7 @@ from prefect_dbt_flow.dbt import graph, tasks
 def dbt_flow(
     project: DbtProject,
     profile: Optional[DbtProfile] = None,
-    graph_operator: Optional[str] = None,
+    graph_operator: Optional[str] = None,  # TODO: implement this
     run_test_after_model: bool = False,
     flow_kwargs: Optional[dict] = None,
 ) -> Flow[[], Any]:
@@ -22,6 +22,11 @@ def dbt_flow(
 
     @flow(**all_flow_kwargs)
     def dbt_flow():
-        tasks.generate_tasks_dag(dbt_graph, run_test_after_model)
+        tasks.generate_tasks_dag(
+            project,
+            profile,
+            dbt_graph,
+            run_test_after_model,
+        )
 
     return dbt_flow
