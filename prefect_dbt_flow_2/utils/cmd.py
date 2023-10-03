@@ -1,5 +1,8 @@
 import subprocess
 from typing import List
+from utils import logging_config
+
+logger = logging_config.logger
 
 def _run_cmd(cmd: List[str]) -> str:
     """
@@ -19,5 +22,7 @@ def _run_cmd(cmd: List[str]) -> str:
         raise Exception(
             f"Error running cmd '{' '.join(cmd)}':\n\terr: {stderr}\n\tout: {stdout}"
             )
+
+    logger.debug(f"_run_cmd {cmd = }")
 
     return stdout

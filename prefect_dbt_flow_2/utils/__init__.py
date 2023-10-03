@@ -1,8 +1,6 @@
 from typing import List, Literal, Optional
 from dataclasses import dataclass
-# import os
-from shutil import which
-
+import shutil
 
 @dataclass
 class DbtConfig:
@@ -18,6 +16,7 @@ class DbtConfig:
 class DbtNode:
     """Class representing a dbt node"""
     name: str
+    unique_id: str
     resource_type: Literal["model", "test"] #keep dbt naming convention
     depends_on: List["DbtNode"] #what if the node depends on a macro?
 

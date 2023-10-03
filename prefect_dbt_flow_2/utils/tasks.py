@@ -1,8 +1,9 @@
 from typing import List, Dict, Optional
 
 from prefect import task
-from prefect_dbt_flow_2.utils import DbtConfig, DbtNode
-from prefect_dbt_flow_2.utils.cmd import _run_cmd
+from utils import DbtConfig, DbtNode, cmd, logging_config
+
+logger = logging_config.logger
 
 DBT_RUN_EMOJI = "🏃"
 DBT_TEST_EMOJI = "🧪"
@@ -36,13 +37,16 @@ def _task_dbt_run(dbt_node: DbtNode,
             "-m",
             dbt_node.name,
         ]
-        _run_cmd(dbt_run_command)
-
+        cmd._run_cmd(dbt_run_command)
+        
+    dbt_run()
     return dbt_run
 
 
 def _task_dbt_test(dbt_node: DbtNode,
                    dbt_config: DbtConfig,
+                   name:str,
+                   wait_for,
                    task_kwargs: Optional[Dict] = None):
     all_task_kwargs = {
         **(task_kwargs or {}),
@@ -63,7 +67,7 @@ def _task_dbt_test(dbt_node: DbtNode,
             "-m",
             dbt_node.name,
         ]
-        _run_cmd(dbt_run_command)
-
-
+        cmd._run_cmd(dbt_run_command)
+    
+    dbt_test()
     return dbt_test

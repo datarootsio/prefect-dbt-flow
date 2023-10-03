@@ -1,30 +1,21 @@
 import shutil
-from prefect_dbt_flow_2.utils.flow import dbt_flow
+from utils import flow, logging_config
 
 
-dev_flow = dbt_flow(
-    dbt_project_name="project_name",
-    dbt_project_dir="path/to/dbt/project",
-    dbt_profiles_dir="path/to/dbt_profiles",
-    dbt_target="dev",
-    dbt_exe= "path/to/dbt_exe",
-    dbt_run_test_after_model=True,
-    dbt_print_stauts=True,
-    flow_kwargs= {"name":"xxx1"}
-)
-# we can get the dbt_DAG from ls or manifest... where should we state that?
-
-prod_flow = dbt_flow(
-    dbt_project_name="project_name",
-    dbt_project_dir="path/to/dbt/project",
-    dbt_profiles_dir="path/to/dbt_profiles",
-    dbt_target="prod",
-    dbt_exe= "path/to/dbt_exe",
-    dbt_run_test_after_model=True,
-    dbt_print_stauts=True,
-    flow_kwargs= {"name":"xxx2"}
-)
+logger = logging_config.logger
 
 if __name__ == "__main__":
-    print(dev_flow)
-    print(prod_flow)
+
+    logger.debug("--- Start run")
+    flow.dbt_flow(
+        dbt_project_name="prefect_dbt",
+        dbt_project_dir="/Users/dvaldez/DataRoots/guilds/prefect-dbt-backup/prefect_dbt",
+        dbt_profiles_dir="/Users/dvaldez/DataRoots/guilds/prefect-dbt-backup/prefect_dbt",
+        dbt_target="dev",
+        dbt_exe= shutil.which("dbt"),
+        dbt_run_test_after_model=True,
+        dbt_print_stauts=False,
+        flow_kwargs= {"name":"xxx"}
+    )
+
+    logger.debug("--- End run")

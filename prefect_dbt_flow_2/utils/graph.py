@@ -2,8 +2,9 @@ import json
 from prefect import get_run_logger
 from typing import Dict
 
-from prefect_dbt_flow_2.utils.cmd import _run_cmd
-from prefect_dbt_flow_2.utils import DbtNode, DbtConfig
+from utils import DbtNode, DbtConfig, cmd, logging_config
+
+logger = logging_config.logger
 
 
 def parse_dbt_nodes_info(dbt_config: DbtConfig) -> Dict[str, DbtNode]:
@@ -21,10 +22,10 @@ def parse_dbt_nodes_info(dbt_config: DbtConfig) -> Dict[str, DbtNode]:
         "--profiles-dir",
         dbt_config.dbt_profiles_dir,
     ]
-    # print(f"\n---debug_parse_dbt_nodes_info__dbt_ls_command:\n{dbt_ls_command}")
-    cmd_out = _run_cmd(dbt_ls_command)
-    # print(f"\n---debug_parse_dbt_nodes_info:\n{cmd_out}")
-    dbt_nodes_info = {}
+    
+    cmd_out = cmd._run_cmd(dbt_ls_command)
+    # logger.debug(f"parse_dbt_nodes_info__{cmd_out = }")
+    dbt_nodes_info = {} #instead of a dict, use a list ?
     for raw_dbt_node_data in cmd_out.split("\n"):
         if "{" in raw_dbt_node_data:
             try:
@@ -35,9 +36,9 @@ def parse_dbt_nodes_info(dbt_config: DbtConfig) -> Dict[str, DbtNode]:
                         unique_id=node_dict["unique_id"], #model.prefect_dbt.my_first_dbt_model
                         resource_type=node_dict["resource_type"],
                         depends_on=node_dict["depends_on"].get("nodes", []),
-                        file_path=dbt_config.dbt_project_dir / node_dict["original_file_path"],
-                        tags=node_dict["tags"],
-                        config=node_dict["config"],
+                        # file_path=dbt_config.dbt_project_dir / node_dict["original_file_path"],
+                        # tags=node_dict["tags"],
+                        # config=node_dict["config"],
                     )
                     dbt_nodes_info[dbt_node.unique_id] = dbt_node
             except json.decoder.JSONDecodeError:
