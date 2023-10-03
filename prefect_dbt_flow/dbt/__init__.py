@@ -6,11 +6,12 @@ from dataclasses import dataclass
 class DbtProject:
     name: str
     project_dir: str
+    profiles_dir: str
 
 
 @dataclass
 class DbtProfile:
-    ...
+    target: str
 
 
 @dataclass
