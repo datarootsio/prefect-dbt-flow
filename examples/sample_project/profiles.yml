@@ -1,27 +1,9 @@
 sample_project:
-  target: dev
+  target: prod
   outputs:
-    dev:
-      type: postgres
-      host: db
-      user: admin
-      password: admin
-      port: 5432
-      dbname: test_db
-      schema: test_schema
     prod:
-      type: postgres
-      host: db
-      user: admin
-      password: admin
-      port: 5432
-      dbname: test_db
-      schema: test_schema
-    test:
-      type: postgres
-      host: localhost
-      user: admin
-      password: admin
-      port: 5432
-      dbname: test_db
-      schema: test_schema
+      type: duckdb
+      path: /tmp/prefect_dbt_flow_prod.duckdb
+    dev:
+      type: duckdb
+      path: /tmp/prefect_dbt_flow_dev.duckdb

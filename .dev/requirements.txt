@@ -1,5 +1,5 @@
-dbt-core==1.5.3
-dbt-postgres==1.5.3
+dbt-core==1.5.2
+dbt-duckdb==1.5.2
 prefect
 prefect-aws
 s3fs

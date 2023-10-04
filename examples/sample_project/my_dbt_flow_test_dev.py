@@ -1,5 +1,7 @@
 from pathlib import Path
 
+from prefect.task_runners import SequentialTaskRunner
+
 from prefect_dbt_flow.dbt import DbtProject, DbtProfile, DbtDagOptions
 from prefect_dbt_flow import dbt_flow
 
@@ -10,12 +12,15 @@ my_dbt_flow = dbt_flow(
         profiles_dir=Path(__file__).parent,
     ),
     profile=DbtProfile(
-        target="test",
+        target="dev",
     ),
     dag_options=DbtDagOptions(
-        select="+my_model_c",
         run_test_after_model=True,
     ),
+    flow_kwargs={
+        # Ensure only one process has access to the duckdb database file at the same time
+        "task_runner": SequentialTaskRunner(),
+    },
 )
 
 if __name__ == "__main__":
