@@ -7,3 +7,6 @@ sample_project:
     dev:
       type: duckdb
       path: /tmp/prefect_dbt_flow_dev.duckdb
+    test:
+      type: duckdb
+      path: "{{ env_var('DUCKDB_DB_FILE') }}"
