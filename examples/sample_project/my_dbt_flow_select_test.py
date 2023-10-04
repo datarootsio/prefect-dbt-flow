@@ -13,6 +13,7 @@ my_dbt_flow = dbt_flow(
         target="test",
     ),
     dag_options=DbtDagOptions(
+        select="+my_model_c",
         run_test_after_model=True,
     ),
 )
