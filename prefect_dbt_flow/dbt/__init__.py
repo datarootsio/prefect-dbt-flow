@@ -8,11 +8,12 @@ from pathlib import Path
 class DbtProject:
     """
     Class that represents a dbt project configuration.
-    
-    :field name: Name of dbt project, 
+
+    :field name: Name of dbt project,
     :field project_dir: Path to directory that contains dbt project.yml
     :field profiles_dir: Path to directory that contains dbt profiles.yml
     """
+
     name: str
     project_dir: Union[str, Path]
     profiles_dir: Union[str, Path]
@@ -22,9 +23,10 @@ class DbtProject:
 class DbtProfile:
     """
     Class that represents a dbt profile configuration.
-    
+
     :field target: dbt target, usualy "dev" or "prod"
     """
+
     target: str
 
 
@@ -39,6 +41,7 @@ class DbtNode:
     :field depends_on: e. ["model.sample_project.my_model_b"]
     :field has_tests: if node is a test
     """
+
     name: str
     unique_id: str
     resource_type: str
@@ -50,11 +53,12 @@ class DbtNode:
 class DbtDagOptions:
     """
     Class to add dbt DAG configurations.
-    
+
     :field select: dbt module to include in the run
     :field exclude: dbt module to exclude in the run
     :field run_test_after_model: run test afeter run model
     """
+
     select: Optional[str] = None
     exclude: Optional[str] = None
     run_test_after_model: bool = False

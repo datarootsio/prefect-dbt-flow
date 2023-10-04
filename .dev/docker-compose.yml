@@ -2,30 +2,6 @@
 version: "3.1"
 
 services:
-  # DBT
-  db:
-    image: postgres:15.2-alpine
-    restart: always
-    environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin
-      POSTGRES_DB: test_db
-    ports:
-      - 5432:5432
-    volumes:
-      - dbt-db:/var/lib/postgresql/data
-
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: pgadmin4_container
-    restart: always
-    ports:
-      - "8080:80"
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.admin
-      PGADMIN_DEFAULT_USER: admin
-      PGADMIN_DEFAULT_PASSWORD: admin
-
   # Prefect
   prefect-db:
     image: postgres:15.2-alpine

@@ -1,7 +1,7 @@
 """Functions to create a prefect flow for a dbt project."""
 from typing import Optional, Any
 
-from prefect import flow, Flow
+from prefect import flow
 
 from prefect_dbt_flow.dbt import (
     DbtProject,
@@ -17,7 +17,7 @@ def dbt_flow(
     profile: Optional[DbtProfile] = None,
     dag_options: Optional[DbtDagOptions] = None,
     flow_kwargs: Optional[dict] = None,
-) -> Flow[[], Any]:
+) -> Any:
     """
     Create a PrefectFlow for executing a dbt project.
 
