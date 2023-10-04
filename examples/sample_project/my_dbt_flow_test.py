@@ -12,9 +12,6 @@ my_dbt_flow = dbt_flow(
     profile=DbtProfile(
         target="test",
     ),
-    dag_options=DbtDagOptions(
-        run_test_after_model=True,
-    ),
 )
 
 if __name__ == "__main__":

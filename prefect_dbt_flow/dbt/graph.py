@@ -32,8 +32,16 @@ def parse_dbt_project(
         except json.decoder.JSONDecodeError:
             pass
 
+    # Check if a node has tests
     for dbt_node in dbt_graph:
         if dbt_node.unique_id in models_with_tests:
             dbt_node.has_tests = True
+
+    # Remove dependencies if not in Graph (needed in case of select/exclude)
+    all_model_ids = [dbt_node.unique_id for dbt_node in dbt_graph]
+    for dbt_node in dbt_graph:
+        dbt_node.depends_on = [
+            node_id for node_id in dbt_node.depends_on if node_id in all_model_ids
+        ]
 
     return dbt_graph
