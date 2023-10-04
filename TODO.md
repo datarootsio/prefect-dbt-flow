@@ -1,9 +1,9 @@
 # TODOs
 
 - [x] Feature: Basic DAG generation
-- [ ] Make sure everything is typed (and checked with mypy)
+- [x] Make sure everything is typed (and checked with mypy)
 - [ ] Add cicd to push package to pypi
-- [ ] Documentation
+- [x] Documentation
 - [ ] Add basic example
 - [ ] Add some simple tests
 - [x] Feature: Test after Run

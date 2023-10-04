@@ -12,6 +12,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.10"
 prefect = "^2.13.2"
+mypy = "^1.5.1"
 
 
 [tool.poetry.group.dev.dependencies]

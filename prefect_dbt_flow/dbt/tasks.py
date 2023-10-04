@@ -1,3 +1,4 @@
+"""Code for generate prefect DAG, includes dbt run and test functions"""
 from typing import List, Dict, Optional, Any
 
 from prefect import task, get_run_logger
@@ -16,6 +17,15 @@ def _task_dbt_run(
     dbt_node: DbtNode,
     task_kwargs: Optional[Dict] = None,
 ):
+    """
+    Create a Prefect task for running a dbt model.
+
+    :param project: Class that represents a dbt project configuration.
+    :param profile: Class that represents a dbt profile configuration.
+    :param dbt_node: The dbt node (model) to run.
+    :param task_kwargs: Additional task configuration.
+    :return: Prefect task.
+    """
     all_task_kwargs = {
         **(task_kwargs or {}),
         "name": f"{DBT_RUN_EMOJI} {dbt_node.name}",
@@ -23,6 +33,11 @@ def _task_dbt_run(
 
     @task(**all_task_kwargs)
     def dbt_run():
+        """
+        Run a dbt model.
+
+        :return: None
+        """
         dbt_run_output = cli.dbt_run(project, profile, dbt_node.name)
         get_run_logger().info(dbt_run_output)
 
@@ -35,6 +50,15 @@ def _task_dbt_test(
     dbt_node: DbtNode,
     task_kwargs: Optional[Dict] = None,
 ):
+    """
+    Create a Prefect task for testing a dbt model.
+
+    :param project: Class that represents a dbt project configuration.
+    :param profile: Class that represents a dbt profile configuration.
+    :param dbt_node: The dbt node (model) to run.
+    :param task_kwargs: Additional task configuration.
+    :return: Prefect task.
+    """
     all_task_kwargs = {
         **(task_kwargs or {}),
         "name": f"{DBT_TEST_EMOJI} test_{dbt_node.name}",
@@ -42,6 +66,11 @@ def _task_dbt_test(
 
     @task(**all_task_kwargs)
     def dbt_test():
+        """
+        Test a dbt model
+
+        :return: None
+        """
         dbt_test_output = cli.dbt_test(project, profile, dbt_node.name)
         get_run_logger().info(dbt_test_output)
 
@@ -54,6 +83,16 @@ def generate_tasks_dag(
     dbt_graph: List[DbtNode],
     run_test_after_model: bool = False,
 ) -> None:
+    """
+    Generate a Prefect DAG for running and testing dbt models.
+
+    :param project: Class that represents a dbt project configuration.
+    :param profile: Class that represents a dbt profile configuration.
+    :param dbt_graph: A list of dbt nodes (models) to include in the DAG.
+    :param run_test_after_model: If True, run tests after running each model.
+    :return: None
+    """
+    
     # TODO: refactor this
     all_tasks = {
         dbt_node.unique_id: _task_dbt_run(

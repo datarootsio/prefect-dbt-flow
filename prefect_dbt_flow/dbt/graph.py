@@ -1,3 +1,4 @@
+"""Code for parsing dbt project and generate a list of dbt nodes"""
 from typing import List, Optional
 import json
 
@@ -6,8 +7,16 @@ from prefect_dbt_flow.dbt import DbtProject, DbtNode, DbtDagOptions
 
 
 def parse_dbt_project(
-    project: DbtProject, dag_options: Optional[DbtDagOptions] = None
+    project: DbtProject, 
+    dag_options: Optional[DbtDagOptions] = None
 ) -> List[DbtNode]:
+    """
+    Parses a list of dbt nodes class objects from dbt ls cli command.
+
+    :param project: Class that represents a dbt project configuration.
+    :param dag_otpions: Class to add dbt DAG configurations.
+    :return: list of dbt nodes, each node as a class.
+    """
     dbt_graph: List[DbtNode] = []
     models_with_tests: List[str] = []
 
