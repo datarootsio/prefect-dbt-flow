@@ -2,25 +2,16 @@ from typing import List, Optional
 import json
 
 from prefect_dbt_flow.dbt import cli
-from prefect_dbt_flow.dbt import DbtProject, DbtNode
+from prefect_dbt_flow.dbt import DbtProject, DbtNode, DbtDagOptions
 
 
 def parse_dbt_project(
-    project: DbtProject, graph_operator: Optional[str] = None
+    project: DbtProject, dag_options: Optional[DbtDagOptions] = None
 ) -> List[DbtNode]:
-    dbt_graph = _parse_dbt_graph(project)
-
-    if graph_operator:
-        return _filter_dbt_nodes_by_operator(dbt_graph, graph_operator)
-
-    return dbt_graph
-
-
-def _parse_dbt_graph(project: DbtProject) -> List[DbtNode]:
     dbt_graph: List[DbtNode] = []
     models_with_tests: List[str] = []
 
-    dbt_ls_output = cli.dbt_ls(project)
+    dbt_ls_output = cli.dbt_ls(project, dag_options)
 
     for line in dbt_ls_output.split("\n"):
         try:
@@ -41,17 +32,16 @@ def _parse_dbt_graph(project: DbtProject) -> List[DbtNode]:
         except json.decoder.JSONDecodeError:
             pass
 
+    # Check if a node has tests
     for dbt_node in dbt_graph:
         if dbt_node.unique_id in models_with_tests:
             dbt_node.has_tests = True
 
-    print(dbt_graph)
+    # Remove dependencies if not in Graph (needed in case of select/exclude)
+    all_model_ids = [dbt_node.unique_id for dbt_node in dbt_graph]
+    for dbt_node in dbt_graph:
+        dbt_node.depends_on = [
+            node_id for node_id in dbt_node.depends_on if node_id in all_model_ids
+        ]
 
     return dbt_graph
-
-
-def _filter_dbt_nodes_by_operator(
-    dbt_nodes: List[DbtNode], graph_operator: str
-) -> List[DbtNode]:
-    # TODO: implement this
-    return dbt_nodes

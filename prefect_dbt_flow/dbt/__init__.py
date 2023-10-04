@@ -1,4 +1,4 @@
-from typing import List, Literal, Union
+from typing import List, Union, Optional
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -22,3 +22,10 @@ class DbtNode:
     resource_type: str
     depends_on: List[str]
     has_tests: bool = False
+
+
+@dataclass
+class DbtDagOptions:
+    select: Optional[str] = None
+    exclude: Optional[str] = None
+    run_test_after_model: bool = False
