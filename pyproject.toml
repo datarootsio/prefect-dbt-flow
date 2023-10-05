@@ -17,10 +17,10 @@ python = "^3.10"
 prefect = "^2.13.2"
 mypy = "^1.5.1"
 mike = "^1.1.2"
-mkdocstrings = "^0.23.0"
 mkdocs-material = "^9.4.3"
 mkdocs-autorefs = "^0.5.0"
 mkdocs-coverage = "^1.0.0"
+mkdocstrings = "^0.23.0"
 
 
 [tool.poetry.group.dev.dependencies]

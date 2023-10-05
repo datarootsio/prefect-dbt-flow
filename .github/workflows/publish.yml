@@ -97,5 +97,6 @@ jobs:
       #   run: poetry run pytest --cov-report html --cov=prefect_dbt_flow tests/
       - name: Deploy docs
         run: |
+          poetry run mike delete --all
           poetry run mike deploy --update-aliases ${{ needs.get-new-tag.outputs.tag-id }} latest
           poetry run mike set-default --push latest
