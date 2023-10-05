@@ -1,6 +1,6 @@
 site_name: "Prefect dbt flow"
 site_description: "Docummentation for `prefect_dbt_flow."
-site_url: "https://datarootsio.github.io/prefect_dbt_flow"
+site_url: "https://datarootsio.github.io/prefect-dbt-flow/"
 repo_url: "https://github.com/datarootsio/prefect-dbt-flow"
 # edit_uri: "blob/main/docs/"
 repo_name: "datarootsio/prefect-dbt-flow"
@@ -33,13 +33,13 @@ plugins:
 - search
 - autorefs
 - coverage
-- mkdocstrings:
-    watch:
-      - prefect_dbt_flow
-    handlers:
-      python:
-        selection:
-          docstring_style: restructured-text
+# - mkdocstrings:
+#     watch:
+#       - prefect_dbt_flow
+#     handlers:
+#       python:
+#         selection:
+#           docstring_style: restructured-text
 
 extra_css:
   - stylesheets/extra.css

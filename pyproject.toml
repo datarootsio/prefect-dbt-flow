@@ -8,6 +8,9 @@ authors = [
 ]
 license = "MIT"
 readme = "README.md"
+homepage = "https://datarootsio.github.io/prefect-dbt-flow"
+repository = "https://github.com/datarootsio/prefect-dbt-flow"
+keywords = ["dbt", "prefect"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
