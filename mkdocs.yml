@@ -1,0 +1,69 @@
+site_name: "Prefect dbt flow"
+site_description: "Docummentation for `prefect_dbt_flow."
+site_url: "https://datarootsio.github.io/prefect_dbt_flow"
+repo_url: "https://github.com/datarootsio/prefect-dbt-flow"
+# edit_uri: "blob/main/docs/"
+repo_name: "datarootsio/prefect-dbt-flow"
+
+markdown_extensions:
+  - def_list
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.snippets:
+      check_paths: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+
+theme:
+  name: "material"
+  # logo: images/sm-logo-white.png
+  # favicon: images/sm-logo.png
+  font:
+    text: arvo
+    code: poppins
+  icon:
+    repo: fontawesome/brands/github-alt
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.top
+
+plugins:
+- search
+- autorefs
+- coverage
+- mkdocstrings:
+    watch:
+      - prefect_dbt_flow
+    handlers:
+      python:
+        selection:
+          docstring_style: restructured-text
+
+extra_css:
+  - stylesheets/extra.css
+
+nav:
+- Home: 
+  - Overview: index.md
+  - Changelog: https://github.com/datarootsio/
+  - License: license.md
+
+
+copyright: 'Maintained by dataroots'
+
+extra:
+    version:
+      provider: mike
+    social:
+        - icon: fontawesome/brands/github-alt
+          link: 'https://github.com/datarootsio'
+        - icon: fontawesome/brands/linkedin
+          link: 'https://www.linkedin.com/company/dataroots/'
+        - icon: fontawesome/brands/instagram
+          link: 'https://www.instagram.com/lifeatdataroots/'
+        - icon: fontawesome/brands/youtube
+          link: 'https://www.youtube.com/c/dataroots'
+        - icon: fontawesome/solid/globe
+          link: 'https://dataroots.io/'
