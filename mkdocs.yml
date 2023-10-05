@@ -33,7 +33,7 @@ plugins:
 - search
 - autorefs
 - coverage
-# - mkdocstrings:
+- mkdocstrings
 #     watch:
 #       - prefect_dbt_flow
 #     handlers:
@@ -49,6 +49,7 @@ nav:
   - Overview: index.md
   - Changelog: https://github.com/datarootsio/
   - License: license.md
+  - Code: code.md
 
 
 copyright: 'Maintained by dataroots'

@@ -21,11 +21,32 @@ def dbt_flow(
     """
     Create a PrefectFlow for executing a dbt project.
 
-    :param project: Class that represents a dbt project configuration.
-    :param profile: Class that represents a dbt profile configuration.
-    :param dag_options: Class to add dbt DAG configurations.
-    :param flow_kwargs:
-    :return: Prefec Flow.
+    Examples:
+        ```
+        my_dbt_flow = dbt_flow(
+            project=DbtProject(
+                name="sample_project",
+                project_dir=Path(__file__).parent,
+                profiles_dir=Path(__file__).parent,
+            ),
+            profile=DbtProfile(
+                target="prod",
+            ),
+            flow_kwargs={
+                # Ensure only one process has access to the duckdb database file at the same time
+                "task_runner": SequentialTaskRunner(),
+            },
+        )
+        ```
+
+    Args:
+        project (dataclass): A Class that represents a dbt project configuration.
+        profile (dataclass): A Class that represents a dbt profile configuration.
+        dag_options (dataclass): A Class to add dbt DAG configurations.
+        flow_kwargs (dict): A dict of prefect @flow arguments
+
+    Returns:
+        dbt_flow: A Prefec Flow.
     """
     all_flow_kwargs = {
         "name": project.name,
@@ -39,7 +60,8 @@ def dbt_flow(
         """
         Function that configurates and runs a Prefect flow using the parameters from dbt_flow.
 
-        :return: prefect flow
+        Returns:
+            A prefect flow
         """
         tasks.generate_tasks_dag(
             project,

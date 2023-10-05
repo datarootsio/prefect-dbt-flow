@@ -7,15 +7,17 @@ from prefect_dbt_flow.dbt import DbtProject, DbtNode, DbtDagOptions
 
 
 def parse_dbt_project(
-    project: DbtProject, 
-    dag_options: Optional[DbtDagOptions] = None
+    project: DbtProject, dag_options: Optional[DbtDagOptions] = None
 ) -> List[DbtNode]:
     """
     Parses a list of dbt nodes class objects from dbt ls cli command.
 
-    :param project: Class that represents a dbt project configuration.
-    :param dag_otpions: Class to add dbt DAG configurations.
-    :return: list of dbt nodes, each node as a class.
+    Args:
+        project (dataclass): A class that represents a dbt project configuration.
+        dag_otpions (dataclass): A class to add dbt DAG configurations.
+
+    Returns:
+        dbt_graph: A list of dbt nodes, each node as a dataclass.
     """
     dbt_graph: List[DbtNode] = []
     models_with_tests: List[str] = []

@@ -6,33 +6,46 @@ Welcome to the prefect-dbt-flow integration repository! This project aims to pro
 
 ## Requirements
 Before you get started, make sure you have the following prerequisites installed on your system:
-* dbt
-* prefect
 
-## Setup
-Follow these simple steps to set up the prefect-dbt-flow integration on your local machine:
-1. Clone this repository to your local machine using the following command:
-    ```
-    git clone https://github.com/datarootsio/prefect-dbt-flow.git
-    ```
+- python
+- prefect
+- dbt
 
-2. Initialize the prefect-dbt-flow integration by running: 
-    ```
-    prefect-dbt-flow init
-    ```
+## Installation
+``` bash
+pip install prefect-dbt-flow
+```
 
-## Get started
-To start using the prefect-dbt-flow integration, please refer to the documentation or follow the examples provided in the DEMO section.
+## Usage
 
-## Configuration
+### Create a flow
 
-TODO
+``` python
+from pathlib import Path
 
-## Changelog
-Keep track of changes, updates, and new features in the [changelog](changelog) file.
+from prefect.task_runners import SequentialTaskRunner
 
-## Contributing
-We welcome contributions from the community! If you wish to contribute to the project, please read our CONTRIBUTING.md guide to get started.
+from prefect_dbt_flow.dbt import DbtProject, DbtProfile
+from prefect_dbt_flow import dbt_flow
+
+my_dbt_flow = dbt_flow(
+    project=DbtProject(
+        name="sample_project",
+        project_dir=Path(__file__).parent,
+        profiles_dir=Path(__file__).parent,
+    ),
+    profile=DbtProfile(
+        target="prod",
+    ),
+    flow_kwargs={
+        # Ensure only one process has access to the duckdb database file at the same time
+        "task_runner": SequentialTaskRunner(),
+    },
+)
+
+if __name__ == "__main__":
+    my_dbt_flow()
+```
 
 ## License
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+This project is licensed under the MIT License.

@@ -9,9 +9,10 @@ class DbtProject:
     """
     Class that represents a dbt project configuration.
 
-    :field name: Name of dbt project,
-    :field project_dir: Path to directory that contains dbt project.yml
-    :field profiles_dir: Path to directory that contains dbt profiles.yml
+    Args:
+        name: Name of dbt project,
+        project_dir: Path to directory that contains dbt project.yml
+        profiles_dir: Path to directory that contains dbt profiles.yml
     """
 
     name: str
@@ -24,7 +25,8 @@ class DbtProfile:
     """
     Class that represents a dbt profile configuration.
 
-    :field target: dbt target, usualy "dev" or "prod"
+    Args:
+        target: dbt target, usualy "dev" or "prod"
     """
 
     target: str
@@ -35,11 +37,12 @@ class DbtNode:
     """
     Class that represents a dbt node in the project.
 
-    :field name: dbt node name, e. my_model_a
-    :field unique_id: dbt id e. model.sample_project.my_model_a
-    :field resource_type: "model" or "test"
-    :field depends_on: e. ["model.sample_project.my_model_b"]
-    :field has_tests: if node is a test
+    Args:
+        name: dbt node name, e. my_model_a
+        unique_id: dbt id e. model.sample_project.my_model_a
+        resource_type: "model" or "test"
+        depends_on: e. ["model.sample_project.my_model_b"]
+        has_tests: if node is a test
     """
 
     name: str
@@ -54,9 +57,10 @@ class DbtDagOptions:
     """
     Class to add dbt DAG configurations.
 
-    :field select: dbt module to include in the run
-    :field exclude: dbt module to exclude in the run
-    :field run_test_after_model: run test afeter run model
+    Args:
+        select: dbt module to include in the run
+        exclude: dbt module to exclude in the run
+        run_test_after_model: run test afeter run model
     """
 
     select: Optional[str] = None
