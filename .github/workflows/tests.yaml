@@ -22,3 +22,5 @@ jobs:
           poetry install --no-interaction --no-ansi
       - name: run precommit hooks
         run: pre-commit run --all-files
+      - name: run pytest
+        run: poetry run pytest

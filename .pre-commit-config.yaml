@@ -26,12 +26,12 @@ repos:
         pass_filenames: false
         always_run: true
         fail_fast: true
-      - id: pytest
-        name: pytest
-        stages: [commit]
-        types: [python]
-        entry: poetry run pytest
-        language: system
-        pass_filenames: false
-        always_run: true
-        fail_fast: true
+      # - id: pytest
+      #   name: pytest
+      #   stages: [commit]
+      #   types: [python]
+      #   entry: poetry run pytest
+      #   language: system
+      #   pass_filenames: false
+      #   always_run: true
+      #   fail_fast: true
