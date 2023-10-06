@@ -18,9 +18,9 @@ def dbt_ls(
     Code that lists resources from the dbt project, using `dbt ls` command.
 
     Args:
-        project (dataclass): A class that represents a dbt project configuration.
-        dag_otpions (dataclass): A class to add dbt DAG configurations.
-        output (str): Format of output, default is JSON.
+        project: A class that represents a dbt project configuration.
+        dag_options: A class to add dbt DAG configurations.
+        output: Format of output, default is JSON.
 
     Returns:
         list of JSON objects containing dbt resources.
@@ -44,9 +44,9 @@ def dbt_run(project: DbtProject, profile: DbtProfile, model: str) -> str:
     Function that executes `dbt run` command
 
     Args:
-        project (dataclass): A class that represents a dbt project configuration.
-        profile (dataclass): A class that represents a dbt profile configuration.
-        model (str): Name of the model to run.
+        project: A class that represents a dbt project configuration.
+        profile: A class that represents a dbt profile configuration.
+        model: Name of the model to run.
 
     Returns:
         A string representing the output of the `dbt run` command.
@@ -65,9 +65,9 @@ def dbt_test(project: DbtProject, profile: DbtProfile, model: str) -> str:
     Function that executes `dbt test` command
 
     Args:
-        project (dataclass): A class that represents a dbt project configuration.
-        profile (dataclass): A class that represents a dbt profile configuration.
-        model (str): Name of the model to run.
+        project: A class that represents a dbt project configuration.
+        profile: A class that represents a dbt profile configuration.
+        model: Name of the model to run.
 
     Returns:
         A string representing the output of the `dbt test` command.

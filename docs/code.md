@@ -1,16 +1,16 @@
 # Modules
 
-## _FLOW: Generate a prefect flow for dbt proyect
+## **FLOW**
 ::: prefect_dbt_flow.flow
 
-## _CLI: Utility functions
+## **CLI**
 ::: prefect_dbt_flow.dbt.cli
 
-## _GRAPH: dbt parsing
+## **GRAPH**
 ::: prefect_dbt_flow.dbt.graph
 
-## _TASKS: dbt tasks
+## **TASKS**
 ::: prefect_dbt_flow.dbt.tasks
 
-## _INIT: Classes
+## **INIT**
 ::: prefect_dbt_flow.dbt

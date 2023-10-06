@@ -33,13 +33,14 @@ plugins:
 - search
 - autorefs
 - coverage
-- mkdocstrings
-#     watch:
-#       - prefect_dbt_flow
-#     handlers:
-#       python:
-#         selection:
-#           docstring_style: restructured-text
+- mkdocstrings:
+    handlers:
+          python:
+            options:
+              heading_level: 3
+              show_root_heading: true
+              
+              
 
 extra_css:
   - stylesheets/extra.css

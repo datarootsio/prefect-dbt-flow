@@ -21,10 +21,10 @@ def _task_dbt_run(
     Create a Prefect task for running a dbt model. Uses dbt_run from cli module
 
     Args:
-        project (dataclass): A class that represents a dbt project configuration.
-        profile (dataclass): A class that represents a dbt profile configuration.
-        dbt_node (dataclass): A class that represents the dbt node (model) to run.
-        task_kwargs (dict): Additional task configuration.
+        project: A class that represents a dbt project configuration.
+        profile: A class that represents a dbt profile configuration.
+        dbt_node: A class that represents the dbt node (model) to run.
+        task_kwargs: Additional task configuration.
 
     Returns:
         dbt_run: A prefect task.
@@ -58,10 +58,10 @@ def _task_dbt_test(
     Create a Prefect task for testing a dbt model. Uses dbt_test from cli module
 
     Args:
-        project (dataclass): A class that represents a dbt project configuration.
-        profile (dataclass): A class that represents a dbt profile configuration.
-        dbt_node (dataclass): A class that represents the dbt node (model) to run.
-        task_kwargs (dict): Additional task configuration.
+        project: A class that represents a dbt project configuration.
+        profile: A class that represents a dbt profile configuration.
+        dbt_node: A class that represents the dbt node (model) to run.
+        task_kwargs: Additional task configuration.
 
     Returns:
         dbt_test: Prefect task.
@@ -95,10 +95,10 @@ def generate_tasks_dag(
     Generate a Prefect DAG for running and testing dbt models.
 
     Args:
-        project (dataclass): A class that represents a dbt project configuration.
-        profile (dataclass): A class that represents a dbt profile configuration.
-        dbt_graph (list[dataclass]): A list of dbt nodes (models) to include in the DAG.
-        run_test_after_model (bool): If True, run tests after running each model.
+        project: A class that represents a dbt project configuration.
+        profile: A class that represents a dbt profile configuration.
+        dbt_graph: A list of dbt nodes (models) to include in the DAG.
+        run_test_after_model: If True, run tests after running each model.
 
     Returns:
         None

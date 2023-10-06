@@ -7,7 +7,7 @@ def run(cmd_str: str):
     Function that will execute a given command-line as a string.
 
     Args:
-        cmd_str (str): A string containing the command to be executed.
+        cmd_str: A string containing the command to be executed.
 
     Returns:
         stdout: A standard output or standard error of the executed command.

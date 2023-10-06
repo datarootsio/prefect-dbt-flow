@@ -15,6 +15,7 @@ keywords = ["dbt", "prefect"]
 [tool.poetry.dependencies]
 python = "^3.10"
 prefect = "^2.13.2"
+coverage = "^7.3.2"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.3.0"

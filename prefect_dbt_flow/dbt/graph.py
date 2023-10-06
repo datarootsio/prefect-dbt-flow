@@ -13,8 +13,8 @@ def parse_dbt_project(
     Parses a list of dbt nodes class objects from dbt ls cli command.
 
     Args:
-        project (dataclass): A class that represents a dbt project configuration.
-        dag_otpions (dataclass): A class to add dbt DAG configurations.
+        project: A class that represents a dbt project configuration.
+        dag_otpions: A class to add dbt DAG configurations.
 
     Returns:
         dbt_graph: A list of dbt nodes, each node as a dataclass.
