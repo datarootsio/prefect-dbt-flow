@@ -1,11 +1,9 @@
 """Code for generate prefect DAG, includes dbt run and test functions"""
-from typing import List, Dict, Optional, Any
+from typing import Any, Dict, List, Optional
 
-from prefect import task, get_run_logger
+from prefect import get_run_logger, task
 
-from prefect_dbt_flow.dbt import DbtNode, DbtProject, DbtProfile
-from prefect_dbt_flow.dbt import cli
-
+from prefect_dbt_flow.dbt import DbtNode, DbtProfile, DbtProject, cli
 
 DBT_RUN_EMOJI = "🏃"
 DBT_TEST_EMOJI = "🧪"

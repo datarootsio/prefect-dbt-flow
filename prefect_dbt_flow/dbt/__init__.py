@@ -1,7 +1,7 @@
 """Code for managing and configuring a dbt project."""
-from typing import List, Union, Optional
 from dataclasses import dataclass
 from pathlib import Path
+from typing import List, Optional, Union
 
 
 @dataclass

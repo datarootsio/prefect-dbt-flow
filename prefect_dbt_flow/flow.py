@@ -1,15 +1,9 @@
 """Functions to create a prefect flow for a dbt project."""
-from typing import Optional, Any
+from typing import Any, Optional
 
 from prefect import flow
 
-from prefect_dbt_flow.dbt import (
-    DbtProject,
-    DbtProfile,
-    DbtDagOptions,
-    graph,
-    tasks,
-)
+from prefect_dbt_flow.dbt import DbtDagOptions, DbtProfile, DbtProject, graph, tasks
 
 
 def dbt_flow(
@@ -40,7 +34,7 @@ def dbt_flow(
     @flow(**all_flow_kwargs)
     def dbt_flow():
         """
-        Function that configurates and runs a Prefect flow using the parameters from dbt_flow.
+        Function that configurates and runs a Prefect flow.
 
         Returns:
             A prefect flow

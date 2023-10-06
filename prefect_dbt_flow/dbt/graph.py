@@ -1,9 +1,8 @@
 """Code for parsing dbt project and generate a list of dbt nodes"""
-from typing import List, Optional
 import json
+from typing import List, Optional
 
-from prefect_dbt_flow.dbt import cli
-from prefect_dbt_flow.dbt import DbtProject, DbtNode, DbtDagOptions
+from prefect_dbt_flow.dbt import DbtDagOptions, DbtNode, DbtProject, cli
 
 
 def parse_dbt_project(

@@ -1,10 +1,9 @@
 """Utility functions for interacting with dbt using command-line commands."""
-from typing import Optional
 import shutil
+from typing import Optional
 
-from prefect_dbt_flow.dbt import DbtProject, DbtProfile, DbtDagOptions
+from prefect_dbt_flow.dbt import DbtDagOptions, DbtProfile, DbtProject
 from prefect_dbt_flow.utils import cmd
-
 
 DBT_EXE = shutil.which("dbt") or "dbt"
 
