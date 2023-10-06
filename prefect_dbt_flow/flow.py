@@ -1,15 +1,9 @@
 """Functions to create a prefect flow for a dbt project."""
-from typing import Optional, Any
+from typing import Any, Optional
 
 from prefect import flow
 
-from prefect_dbt_flow.dbt import (
-    DbtProject,
-    DbtProfile,
-    DbtDagOptions,
-    graph,
-    tasks,
-)
+from prefect_dbt_flow.dbt import DbtDagOptions, DbtProfile, DbtProject, graph, tasks
 
 
 def dbt_flow(
@@ -21,11 +15,14 @@ def dbt_flow(
     """
     Create a PrefectFlow for executing a dbt project.
 
-    :param project: Class that represents a dbt project configuration.
-    :param profile: Class that represents a dbt profile configuration.
-    :param dag_options: Class to add dbt DAG configurations.
-    :param flow_kwargs:
-    :return: Prefec Flow.
+    Args:
+        project: A Class that represents a dbt project configuration.
+        profile: A Class that represents a dbt profile configuration.
+        dag_options: A Class to add dbt DAG configurations.
+        flow_kwargs: A dict of prefect @flow arguments
+
+    Returns:
+        dbt_flow: A Prefec Flow.
     """
     all_flow_kwargs = {
         "name": project.name,
@@ -37,9 +34,10 @@ def dbt_flow(
     @flow(**all_flow_kwargs)
     def dbt_flow():
         """
-        Function that configurates and runs a Prefect flow using the parameters from dbt_flow.
+        Function that configurates and runs a Prefect flow.
 
-        :return: prefect flow
+        Returns:
+            A prefect flow
         """
         tasks.generate_tasks_dag(
             project,

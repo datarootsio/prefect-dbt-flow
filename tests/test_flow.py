@@ -2,11 +2,10 @@ import os
 from pathlib import Path
 
 import duckdb
-
 from prefect.task_runners import SequentialTaskRunner
 
-from prefect_dbt_flow.dbt import DbtProject, DbtProfile
 from prefect_dbt_flow import dbt_flow
+from prefect_dbt_flow.dbt import DbtProfile, DbtProject
 
 
 def test_flow_basic(tmp_path: Path):
@@ -25,7 +24,8 @@ def test_flow_basic(tmp_path: Path):
             target="test",
         ),
         flow_kwargs={
-            # Ensure only one process has access to the duckdb database file at the same time
+            # Ensure only one process has access to the duckdb db
+            # file at the same time
             "task_runner": SequentialTaskRunner(),
         },
     )

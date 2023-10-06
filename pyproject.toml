@@ -8,12 +8,13 @@ authors = [
 ]
 license = "MIT"
 readme = "README.md"
+homepage = "https://datarootsio.github.io/prefect-dbt-flow"
+repository = "https://github.com/datarootsio/prefect-dbt-flow"
+keywords = ["dbt", "prefect"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
 prefect = "^2.13.2"
-mypy = "^1.5.1"
-
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.3.0"
@@ -22,6 +23,13 @@ pytest = "^7.3.1"
 pre-commit = "^3.3.2"
 ruff = "^0.0.270"
 dbt-duckdb = "1.5.2"
+mypy = "^1.5.1"
+mike = "^1.1.2"
+mkdocs-material = "^9.4.3"
+mkdocs-autorefs = "^0.5.0"
+mkdocs-coverage = "^1.0.0"
+mkdocstrings = {extras = ["python"], version = "^0.23.0"}
+coverage = "^7.3.2"
 
 [build-system]
 requires = ["poetry-core"]
