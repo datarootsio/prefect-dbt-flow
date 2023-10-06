@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "prefect-dbt-flow"
-version = "0.1.0"
-description = "Prefect - DBT integration"
+version = "0.0.1"
+description = "Prefect - dbt integration"
 authors = [
     "David Valdez <david@dataroots.io>",
     "Nico Gelders <nico@dataroots.io>",
@@ -15,6 +15,7 @@ keywords = ["dbt", "prefect"]
 [tool.poetry.dependencies]
 python = "^3.10"
 prefect = "^2.13.2"
+twine = "^4.0.2"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.3.0"
