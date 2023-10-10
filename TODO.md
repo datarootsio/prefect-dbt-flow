@@ -2,9 +2,22 @@
 
 - [x] Feature: Basic DAG generation
 - [x] Make sure everything is typed (and checked with mypy)
-- [ ] Add cicd to push package to pypi
+- [x] Add cicd to push package to pypi
 - [x] Documentation
-- [ ] Add basic example
-- [ ] Add some simple tests
+- [x] Add basic example
+- [x] Add some simple tests
 - [x] Feature: Test after Run
 - [x] Feature: Run subset of models based on graph_operator param
+- [ ] Writing docs: 
+  - [ ] README.md -> main landing page of docs, reference to this readme
+    - intro section (mention active development, not ready for production, breaking changes, etc)
+    - why? with pictures
+    - how to install
+    - basic usage
+    - mention inspiration
+      - cosmos
+      - anna-geller => prefect-dataplatform
+      - dbt + Dagster
+    - license
+  - Getting started guide -> e2e example with jaffle shop
+  - examples page => just reference to the examples folder
