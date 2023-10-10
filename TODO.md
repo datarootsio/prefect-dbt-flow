@@ -21,3 +21,4 @@
     - license
   - Getting started guide -> e2e example with jaffle shop
   - examples page => just reference to the examples folder
+- [ ] Clean up repo
