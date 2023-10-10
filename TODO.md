@@ -2,7 +2,7 @@
 
 - [x] Feature: Basic DAG generation
 - [x] Make sure everything is typed (and checked with mypy)
-- [ ] Add cicd to push package to pypi
+- [x] Add cicd to push package to pypi
 - [x] Documentation
 - [ ] Add basic example
 - [ ] Add some simple tests

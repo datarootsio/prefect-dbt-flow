@@ -10,7 +10,7 @@ setup(
     author_email="nico@dataroots.io",
     url="https://datarootsio.github.io/prefect-dbt-flow",
     download_url="https://github.com/datarootsio/prefect-dbt-flow/archive/refs/tags/v0.0.1-alpha.tar.gz",
-    keywords=["prefect", "dbt", "workflow"],
+    keywords=["dbt", "prefect"],
     install_requires=[
         "prefect",
     ],
