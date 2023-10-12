@@ -1,0 +1,12 @@
+example_jaffle_shop:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: data-db
+      user: admin
+      password: pass123
+      port: 5432
+      dbname: data
+      schema: example
+      connect_timeout: 10

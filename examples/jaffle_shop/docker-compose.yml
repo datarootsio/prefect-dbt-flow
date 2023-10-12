@@ -5,7 +5,7 @@ services:
     image: postgres:15.2-alpine
     restart: always
     environment:
-      - POSTGRES_USER=postgres
+      - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=pass123
       - POSTGRES_DB=data
     expose:
@@ -24,3 +24,16 @@ services:
       - PREFECT_API_DATABASE_CONNECTION_URL=sqlite+aiosqlite:////opt/prefect/prefect.db
     ports:
       - 4200:4200
+
+  cli:
+    build: .
+    entrypoint: "bash"
+    working_dir: "/root/flows"
+    volumes:
+      - "./jaffle_shop:/root/flows"
+    environment:
+      - PREFECT_API_URL=http://server:4200/api
+
+networks:
+  default:
+    name: prefect-dbt-network
