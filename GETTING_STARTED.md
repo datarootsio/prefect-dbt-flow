@@ -31,14 +31,12 @@ docker compose run cli
 ```
 
 ### 5. Run the Prefect flow
-Inside the CLI environment, 
-
-run the following comand to seed the csv files:
+Inside the CLI environment, run the following command to seed the csv files:
 ```bash
 dbt seed
 ```
 
-run the Prefect-dbt-flow using the following command:
+run the Prefect dbt flow using the following command:
 ```bash
 python my_prefect_dbt_flow.py
 ```
@@ -46,10 +44,11 @@ This command will execute the Prefect flow and print its status to the terminal.
 
 ### 6. View the reseults
 To view the results and monitor the flow, follow these steps:
-
 - Open a web browser and go to `http://0.0.0.0:4200/`.
 - In the Prefect Server interface, click on the flow run. It should have a similar name to `adjective-animal`.
 - From there, you can explore the dbt job DAG and its associated logs.
+
+![run_no_test](docs/images/run_with_test.png)
 
 With these steps, you can set up and run a Prefect-dbt-flow and monitor its progress through the Prefect Server interface.
 
@@ -67,52 +66,59 @@ pip install prefect==2.13.5
 
 ## Creating a Prefect Flow
 To get started, you'll need to create a Prefect flow that incorporates your dbt project. Here's a step-by-step guide:
+
 1. **Import the Required Modules:**
     Start by importing the necessary modules from prefect_dbt_flow:
     ```python
     from prefect_dbt_flow import dbt_flow
+    from prefect_dbt_flow.dbt import DbtProfile, DbtProject, DbtDagOptions
     ```
+
 2. **Define the Prefect Flow:**
-    Create a Prefect flow by initializing a `dbtFlow.dbt_flow` object. You can configure it with your dbt project, profile, and additional options:
-    * **project**: A DbtProject object representing the dbt project configuration.
-    * **profile**: A DbtProfile object representing the dbt profile configuration.
-    * **dag_options**: A DbtDagOptions object to specify dbt DAG configurations.
-    * **flow_kwargs**: A dictionary of Prefect flow arguments.
+    Create a Prefect flow by initializing a `dbt_flow` object. You can configure it with your dbt project, profile, and additional options:
+    - **project**: A DbtProject object representing the dbt project configuration.
+    - **profile**: A DbtProfile object representing the dbt profile configuration.
+    - **dag_options**: A DbtDagOptions object to specify dbt DAG configurations.
+    - **flow_kwargs**: A dictionary of Prefect flow arguments.
     Here's a basic example of how to use dbt_flow():
     ```python
-    my_flow = dbtFlow.dbt_flow(
-        project=dbtFlow.DbtProject(
+    my_flow = dbt_flow(
+        project=DbtProject(
             name="my_flow",
             project_dir="path_to/dbt_project",
             profiles_dir="path_to/dbt_profiles",
         ),
-        profile=dbtFlow.DbtProfile(
+        profile=DbtProfile(
             target="dev",
         ),
-        dag_options=dbtFlow.DbtDagOptions(
+        dag_options=DbtDagOptions(
             run_test_after_model=True,
         ),
     )
     ```
     With this basic setup, you have created a Prefect flow that manages your dbt project. When you run the script, Prefect will execute the dbt tasks defined in your project.
+
 3. **Run the Flow:**
     To execute the Prefect flow, add the following code block:
     ```python
     if __name__ == "__main__":
         my_flow()
     ```
+
 4. **Start the prefect server**
     You will need to start prefect before the run
     ```shell
     prefect server start
     ```
-    You can check up the dashoard at `http://0.0.0.0:4200`
+    You can check up the dashboard at `http://0.0.0.0:4200`
+
 5. **Running the Prefect Flow:**
     To run the Prefect flow, simply execute your Python script:
     ```shell
     python my_prefect_dbt_flow.py
     ```
     Make sure you are in the correct directory or provide the full path to your script. Prefect will execute the dbt tasks defined in your flow, providing orchestration and monitoring capabilities.
+
 6. **See the run**
     You will be able to see the results of the run on the prefect dashboard at `http://0.0.0.0:4200`
 

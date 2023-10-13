@@ -8,8 +8,6 @@
   <a href="https://pepy.tech/project/prefect-dbt-flow"><img alt="Downloads" src="https://pepy.tech/badge/prefect-dbt-flow" /></a>
   <a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg" /></a>
   <a href="http://mypy-lang.org/"><img alt="Mypy checked" src="https://img.shields.io/badge/mypy-checked-1f5082.svg" /></a>
-  <!-- <a href="https://pepy.tech/project/prefect-dbt-flow"><img alt="Codecov" src="https://codecov.io/github/datarootsio/databooks/main/graph/badge.svg" /></a>
-  <a href="https://github.com/datarootsio/databooks/actions"><img alt="test" src="https://github.com/datarootsio/databooks/actions/workflows/test.yml/badge.svg" /></a> -->
 </p>
 
 # prefect-dbt-flow
@@ -52,20 +50,23 @@ pip install prefect-dbt-flow
 ## Basic Usage
 Here's an example of how to use Prefect-dbt-flow to create a Prefect flow for your dbt project:
 ```python
-import prefect_dbt_flow as dbtFlow
-my_flow = dbtFlow.dbt_flow(
-    project=dbtFlow.DbtProject(
-        name="my_flow",
-        project_dir="path_to/dbt_project",
-        profiles_dir="path_to/dbt_profiles",
-    ),
-    profile=dbtFlow.DbtProfile(
-        target="dev",
-    ),
-    dag_options=dbtFlow.DbtDagOptions(
-        run_test_after_model=True,
-    ),
-)
+from prefect_dbt_flow import dbt_flow
+from prefect_dbt_flow.dbt import DbtProfile, DbtProject, DbtDagOptions
+
+my_flow = dbt_flow(
+        project=DbtProject(
+            name="my_flow",
+            project_dir="path_to/dbt_project",
+            profiles_dir="path_to/dbt_profiles",
+        ),
+        profile=DbtProfile(
+            target="dev",
+        ),
+        dag_options=DbtDagOptions(
+            run_test_after_model=True,
+        ),
+    )
+
 if __name__ == "__main__":
     my_flow()
 ```
@@ -73,9 +74,9 @@ For more information consult the [Getting started guide](GETTING_STARTED.md)
 
 ## Inspiration
 Prefect-dbt-flow draws inspiration from various projects in the data engineering and workflow orchestration space, including:
-- cosmos by astronomer
-- anna-geller => prefect-dataplatform
-- dbt + Dagster
+- [cosmos by astronomer](https://github.com/astronomer/astronomer-cosmos)
+- [anna-geller => prefect-dataplatform](https://github.com/anna-geller/prefect-dataplatform)
+- [dbt + Dagster](https://docs.dagster.io/integrations/dbt)
 
 # License
 This project is licensed under the MIT License. You are free to use, modify, and distribute this software as per the terms of the license. If you find this project helpful, please consider giving it a star on GitHub.
