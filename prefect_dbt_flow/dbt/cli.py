@@ -78,3 +78,18 @@ def dbt_test(project: DbtProject, profile: DbtProfile, model: str) -> str:
     dbt_test_cmd.extend(["-m", model])
 
     return cmd.run(" ".join(dbt_test_cmd))
+
+
+def dbt_seed(seed: str) -> str:
+    """
+    Function that executes `dbt seed` command
+
+    Args:
+        seed: Name of the seed to run.
+
+    Returns:
+        A string representing the output of the `dbt seed` command
+    """
+    dbt_seed_cmd = [DBT_EXE, "seed"]
+    dbt_seed_cmd.extend(["--select", seed])
+    return cmd.run(" ".join(dbt_seed_cmd))

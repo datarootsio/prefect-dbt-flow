@@ -39,6 +39,16 @@ def parse_dbt_project(
             if node_dict["resource_type"] == "test":
                 models_with_tests.extend(node_dict["depends_on"]["nodes"])
 
+            if node_dict["resource_type"] == "seed":
+                dbt_graph.append(
+                    DbtNode(
+                        name=node_dict["name"],
+                        unique_id=node_dict["unique_id"],
+                        resource_type=node_dict["resource_type"],
+                        depends_on=[],
+                    )
+                )
+
         except json.decoder.JSONDecodeError:
             pass
 
@@ -46,6 +56,11 @@ def parse_dbt_project(
     for dbt_node in dbt_graph:
         if dbt_node.unique_id in models_with_tests:
             dbt_node.has_tests = True
+
+    # Check if a node has seeds
+    for dbt_node in dbt_graph:
+        if dbt_node.resource_type != "seed":
+            dbt_node.has_seeds = any("seed" in node for node in dbt_node.depends_on)
 
     # Remove dependencies if not in Graph (needed in case of select/exclude)
     all_model_ids = [dbt_node.unique_id for dbt_node in dbt_graph]

@@ -40,9 +40,10 @@ class DbtNode:
     Args:
         name: dbt node name, e. my_model_a
         unique_id: dbt id e. model.sample_project.my_model_a
-        resource_type: "model" or "test"
+        resource_type: "model", "test" or "seed"
         depends_on: e. ["model.sample_project.my_model_b"]
         has_tests: if node is a test
+        has_seeds: if node has seeds
     """
 
     name: str
@@ -50,6 +51,7 @@ class DbtNode:
     resource_type: str
     depends_on: List[str]
     has_tests: bool = False
+    has_seeds: bool = False
 
 
 @dataclass

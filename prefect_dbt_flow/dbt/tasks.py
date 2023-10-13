@@ -5,8 +5,45 @@ from prefect import get_run_logger, task
 
 from prefect_dbt_flow.dbt import DbtNode, DbtProfile, DbtProject, cli
 
+DBT_SEED_EMOJI = "🌱"
 DBT_RUN_EMOJI = "🏃"
 DBT_TEST_EMOJI = "🧪"
+
+
+def _task_dbt_seed(
+    dbt_node: DbtNode,
+    task_kwargs: Optional[Dict] = None,
+):
+    """
+    Create a Prefect task for running a dbt seed. Uses dbt_seed from cli module
+
+    Args:
+        project: A class that represents a dbt project configuration.
+        profile: A class that represents a dbt profile configuration.
+        dbt_node: A class that represents the dbt node (model) to run.
+        task_kwargs: Additional task configuration.
+
+    Returns:
+        dbt_seed: Prefect task.
+    """
+    all_task_kwargs = {
+        **(task_kwargs or {}),
+        "name": f"{DBT_SEED_EMOJI} seed_{dbt_node.name}",
+    }
+
+    @task(**all_task_kwargs)
+    def dbt_seed():
+        """
+        Seeds a dbt seed
+
+        Returns:
+            None
+        """
+        dbt_seed_output = cli.dbt_seed(dbt_node.name)
+        print(f"{dbt_seed_output = }")
+        get_run_logger().info(dbt_seed_output)
+
+    return dbt_seed
 
 
 def _task_dbt_run(
@@ -104,10 +141,16 @@ def generate_tasks_dag(
 
     # TODO: refactor this
     all_tasks = {
-        dbt_node.unique_id: _task_dbt_run(
-            project=project,
-            profile=profile,
-            dbt_node=dbt_node,
+        dbt_node.unique_id: (
+            _task_dbt_seed(
+                dbt_node=dbt_node,
+            )
+            if dbt_node.resource_type == "seed"
+            else _task_dbt_run(
+                project=project,
+                profile=profile,
+                dbt_node=dbt_node,
+            )
         )
         for dbt_node in dbt_graph
     }
