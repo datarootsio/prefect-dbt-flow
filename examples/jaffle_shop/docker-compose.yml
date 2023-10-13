@@ -30,7 +30,7 @@ services:
     entrypoint: "bash"
     working_dir: "/root/flows"
     volumes:
-      - "./jaffle_shop:/root/flows"
+      - ".:/root/flows"
     environment:
       - PREFECT_API_URL=http://server:4200/api
 

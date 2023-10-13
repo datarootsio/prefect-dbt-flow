@@ -31,7 +31,14 @@ docker compose run cli
 ```
 
 ### 5. Run the Prefect flow
-Inside the CLI environment, run the Prefect-dbt-flow using the following command:
+Inside the CLI environment, 
+
+run the following comand to seed the csv files:
+```bash
+dbt seed
+```
+
+run the Prefect-dbt-flow using the following command:
 ```bash
 python my_prefect_dbt_flow.py
 ```
