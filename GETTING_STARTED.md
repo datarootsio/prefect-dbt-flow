@@ -8,7 +8,7 @@ This guide will walk you through setting up and running a sample Prefect-dbt-flo
 ### 1. Clone this repository
 Clone the Prefect-dbt-flow repository and navigate to the example directory.
 ```bash
-git clone git@github.com:datarootsio/prefect-dbt-flow.git
+git clone https://github.com/datarootsio/prefect-dbt-flow.git
 cd prefect-dbt-flow/example/jaffle_shop
 ```
 
@@ -21,7 +21,7 @@ Start the Docker container by running the following command. This command will l
 - A Prefect server accessible at: `http://0.0.0.0:4200/`,
 - A CLI environment with all the required components installed.
 ```bash
-docker compose up -d
+docker compose up -d --build
 ```
 
 ### 4. Access the cli service
@@ -37,13 +37,13 @@ python my_prefect_dbt_flow.py
 ```
 This command will execute the Prefect flow and print its status to the terminal.
 
-### 6. View the reseults
+### 6. View the results
 To view the results and monitor the flow, follow these steps:
 - Open a web browser and go to `http://0.0.0.0:4200/`.
-- In the Prefect Server interface, click on the flow run. It should have a similar name to `adjective-animal`.
+- In the Prefect Server interface, click on the flow run. It should have a similar name to `energetic-collie`.
 - From there, you can explore the dbt job DAG and its associated logs.
 
-![run_no_test](docs/images/run_with_test.png)
+![run_no_test](docs/images/jaffle_shop.png)
 
 With these steps, you can set up and run a Prefect-dbt-flow and monitor its progress through the Prefect Server interface.
 
@@ -58,6 +58,8 @@ You can install an specific version of **Prefect** if you need to:
 ```shell
 pip install prefect==2.13.5
 ```
+
+*Note*: prefect-dbt-flow does not depend on dbt, so make sure your environment has dbt or a dbt-adapter installed.
 
 ## Creating a Prefect Flow
 To get started, you'll need to create a Prefect flow that incorporates your dbt project. Here's a step-by-step guide:
