@@ -2,7 +2,13 @@
 import json
 from typing import List, Optional
 
-from prefect_dbt_flow.dbt import DbtDagOptions, DbtNode, DbtProject, cli
+from prefect_dbt_flow.dbt import (
+    DbtDagOptions,
+    DbtNode,
+    DbtProject,
+    DbtResourceType,
+    cli,
+)
 
 
 def parse_dbt_project(
@@ -32,7 +38,7 @@ def parse_dbt_project(
                     DbtNode(
                         name=node_dict["name"],
                         unique_id=node_dict["unique_id"],
-                        resource_type=node_dict["resource_type"],
+                        resource_type=DbtResourceType.MODEL,
                         depends_on=node_dict["depends_on"].get("nodes", []),
                     )
                 )
@@ -44,8 +50,8 @@ def parse_dbt_project(
                     DbtNode(
                         name=node_dict["name"],
                         unique_id=node_dict["unique_id"],
-                        resource_type=node_dict["resource_type"],
-                        depends_on=[],
+                        resource_type=DbtResourceType.SEED,
+                        depends_on=node_dict["depends_on"].get("nodes", []),
                     )
                 )
 
@@ -56,11 +62,6 @@ def parse_dbt_project(
     for dbt_node in dbt_graph:
         if dbt_node.unique_id in models_with_tests:
             dbt_node.has_tests = True
-
-    # Check if a node has seeds
-    for dbt_node in dbt_graph:
-        if dbt_node.resource_type != "seed":
-            dbt_node.has_seeds = any("seed" in node for node in dbt_node.depends_on)
 
     # Remove dependencies if not in Graph (needed in case of select/exclude)
     all_model_ids = [dbt_node.unique_id for dbt_node in dbt_graph]

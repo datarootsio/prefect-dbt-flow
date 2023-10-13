@@ -3,7 +3,7 @@ from typing import Any, Dict, List, Optional
 
 from prefect import get_run_logger, task
 
-from prefect_dbt_flow.dbt import DbtNode, DbtProfile, DbtProject, cli
+from prefect_dbt_flow.dbt import DbtNode, DbtProfile, DbtProject, DbtResourceType, cli
 
 DBT_SEED_EMOJI = "🌱"
 DBT_RUN_EMOJI = "🏃"
@@ -11,6 +11,8 @@ DBT_TEST_EMOJI = "🧪"
 
 
 def _task_dbt_seed(
+    project: DbtProject,
+    profile: DbtProfile,
     dbt_node: DbtNode,
     task_kwargs: Optional[Dict] = None,
 ):
@@ -39,8 +41,7 @@ def _task_dbt_seed(
         Returns:
             None
         """
-        dbt_seed_output = cli.dbt_seed(dbt_node.name)
-        print(f"{dbt_seed_output = }")
+        dbt_seed_output = cli.dbt_seed(project, profile, dbt_node.name)
         get_run_logger().info(dbt_seed_output)
 
     return dbt_seed
@@ -120,6 +121,13 @@ def _task_dbt_test(
     return dbt_test
 
 
+RESOURCE_TYPE_TO_TASK = {
+    DbtResourceType.SEED: _task_dbt_seed,
+    DbtResourceType.MODEL: _task_dbt_run,
+    DbtResourceType.SNAPSHOT: _task_dbt_run,
+}
+
+
 def generate_tasks_dag(
     project: DbtProject,
     profile: DbtProfile,
@@ -141,16 +149,10 @@ def generate_tasks_dag(
 
     # TODO: refactor this
     all_tasks = {
-        dbt_node.unique_id: (
-            _task_dbt_seed(
-                dbt_node=dbt_node,
-            )
-            if dbt_node.resource_type == "seed"
-            else _task_dbt_run(
-                project=project,
-                profile=profile,
-                dbt_node=dbt_node,
-            )
+        dbt_node.unique_id: RESOURCE_TYPE_TO_TASK[dbt_node.resource_type](
+            project=project,
+            profile=profile,
+            dbt_node=dbt_node,
         )
         for dbt_node in dbt_graph
     }
