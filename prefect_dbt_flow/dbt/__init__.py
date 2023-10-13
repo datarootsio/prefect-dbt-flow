@@ -1,8 +1,8 @@
 """Code for managing and configuring a dbt project."""
 from dataclasses import dataclass
+from enum import Enum, auto
 from pathlib import Path
 from typing import List, Optional, Union
-from enum import Enum, auto
 
 
 class DbtResourceType(Enum):

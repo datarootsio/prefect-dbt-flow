@@ -1,16 +1,11 @@
-import os
 from pathlib import Path
 
-import pytest
-
 import duckdb
-from duckdb import DuckDBPyConnection
-
+import pytest
 from prefect.task_runners import SequentialTaskRunner
 
 from prefect_dbt_flow import dbt_flow
 from prefect_dbt_flow.dbt import DbtProfile, DbtProject
-
 
 SAMPLE_PROJECT_PATH = Path(__file__).parent.parent / "examples" / "sample_project"
 JAFFLE_SHOP_PATH = Path(__file__).parent.parent / "examples" / "jaffle_shop_duckdb"
