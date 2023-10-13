@@ -95,9 +95,9 @@ jobs:
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
       - name: Create coverage report
         run: |
-          coverage run -m pytest tests/
-          coverage report
-          coverage html
+          poetry run coverage run -m pytest tests/
+          poetry run coverage report
+          poetry run coverage html
       - name: Deploy docs
         run: |
           poetry run mike delete --all
