@@ -32,7 +32,7 @@ You can install prefect-dbt-flow via pip:
 pip install prefect-dbt-flow
 ```
 
-*Note*: prefect-dbt-flow does not come with dbt as a dependency. You will need to install dbt or dbt-adapter separately.
+*Note*: prefect-dbt-flow does not come with dbt as a dependency. You will need to install dbt or a dbt-adapter separately.
 
 ## Basic Usage
 Here's an example of how to use prefect-dbt-flow to create a Prefect flow for your dbt project:

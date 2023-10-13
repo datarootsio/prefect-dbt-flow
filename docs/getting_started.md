@@ -1,9 +1,11 @@
 # Getting started guide
 
-The prefect-dbt-flow library allows you to seamlessly integrate dbt workflows into Prefect. This usage guide will walk you through the steps required to create and manage a Prefect flow for the [jaffle_shop](https://github.com/dbt-labs/jaffle_shop) dbt project. After this guide, you should be able to create dbt flows for your own dbt projects.
+The prefect-dbt-flow library allows you to seamlessly integrate dbt workflows into Prefect. This getting started guide will walk you through the steps required to create and manage a Prefect flow for the [jaffle_shop](https://github.com/dbt-labs/jaffle_shop) dbt project. After this guide, you should be able to create dbt flows for your own dbt projects.
 
 ## Example guide
-This guide will walk you through setting up and running a sample prefect-dbt-flow using Docker Compose. Follow these steps to get started:
+This guide will walk you through setting up and running a sample prefect-dbt-flow using Docker Compose. Follow the steps to get started.
+
+*Note:* We use docker compose to simplify and "bundle" the setup for this guide. In a production environment, you will probably connect to [Prefect cloud](https://www.prefect.io/cloud) or a [Prefect server setup by your infrastructure team](https://docs.prefect.io/latest/guides/host/).
 
 ### 1. Clone this repository
 Clone the prefect-dbt-flow repository and navigate to the example directory.
@@ -11,6 +13,8 @@ Clone the prefect-dbt-flow repository and navigate to the example directory.
 git clone https://github.com/datarootsio/prefect-dbt-flow.git
 cd prefect-dbt-flow/example/jaffle_shop
 ```
+
+*Note:* Make sure all the following commands are run from the `prefect-dbt-flow/example/jaffle_shop` directory.
 
 ### 2. Install Docker Compose
 Ensure that you have Docker Compose installed on your system. If you haven't already installed it, refer to the [Docker Compose Installation Guide](https://docs.docker.com/compose/install/) for instructions.
