@@ -33,7 +33,7 @@ docker compose run cli
 ### 5. Run the Prefect flow
 Inside the CLI environment, run the Prefect-dbt-flow using the following command:
 ```bash
-python my_prefect_dbt_flow
+python my_prefect_dbt_flow.py
 ```
 This command will execute the Prefect flow and print its status to the terminal.
 
@@ -41,10 +41,12 @@ This command will execute the Prefect flow and print its status to the terminal.
 To view the results and monitor the flow, follow these steps:
 
 - Open a web browser and go to `http://0.0.0.0:4200/`.
-- In the Prefect Server interface, click on the flow run. It should have a name similar to `adjective-animal`.
+- In the Prefect Server interface, click on the flow run. It should have a similar name to `adjective-animal`.
 - From there, you can explore the dbt job DAG and its associated logs.
 
 With these steps, you can set up and run a Prefect-dbt-flow and monitor its progress through the Prefect Server interface.
+
+# How does it works?
 
 ## Installation
 Before using Prefect-dbt-flow, you need to install the library. You can do this using pip:
