@@ -1,4 +1,4 @@
-site_name: "Prefect_dbt_flow"
+site_name: "prefect-dbt-flow"
 site_description: "Docummentation for `prefect_dbt_flow."
 site_url: "https://datarootsio.github.io/prefect-dbt-flow"
 repo_url: "https://github.com/datarootsio/prefect-dbt-flow"
@@ -30,42 +30,40 @@ theme:
     - navigation.top
 
 plugins:
-- search
-- autorefs
-- coverage
-- mkdocstrings:
-    handlers:
-          python:
-            options:
-              heading_level: 3
-              show_root_heading: true
-              
-              
+  - search
+  - autorefs
+  - coverage
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            heading_level: 3
+            show_root_heading: true
 
 extra_css:
   - stylesheets/extra.css
 
 nav:
-- Home: 
-  - Overview: index.md
-  - Changelog: https://github.com/datarootsio/
-  - License: license.md
-  - Code: code.md
+  - Home:
+      - Overview: index.md
+      - Getting Started: getting_started.md
+      - API: api.md
+      - Changelog: https://github.com/datarootsio/prefect-dbt-flow/releases
+      - License: license.md
 
-
-copyright: 'Maintained by dataroots'
+copyright: "Maintained by dataroots"
 
 extra:
-    version:
-      provider: mike
-    social:
-        - icon: fontawesome/brands/github-alt
-          link: 'https://github.com/datarootsio'
-        - icon: fontawesome/brands/linkedin
-          link: 'https://www.linkedin.com/company/dataroots/'
-        - icon: fontawesome/brands/instagram
-          link: 'https://www.instagram.com/lifeatdataroots/'
-        - icon: fontawesome/brands/youtube
-          link: 'https://www.youtube.com/c/dataroots'
-        - icon: fontawesome/solid/globe
-          link: 'https://dataroots.io/'
+  version:
+    provider: mike
+  social:
+    - icon: fontawesome/brands/github-alt
+      link: "https://github.com/datarootsio"
+    - icon: fontawesome/brands/linkedin
+      link: "https://www.linkedin.com/company/dataroots/"
+    - icon: fontawesome/brands/instagram
+      link: "https://www.instagram.com/lifeatdataroots/"
+    - icon: fontawesome/brands/youtube
+      link: "https://www.youtube.com/c/dataroots"
+    - icon: fontawesome/solid/globe
+      link: "https://dataroots.io/"
