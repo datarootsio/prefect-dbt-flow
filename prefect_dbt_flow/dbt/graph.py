@@ -19,7 +19,7 @@ def parse_dbt_project(
 
     Args:
         project: A class that represents a dbt project configuration.
-        dag_otpions: A class to add dbt DAG configurations.
+        dag_options: A class to add dbt DAG configurations.
 
     Returns:
         dbt_graph: A list of dbt nodes, each node as a dataclass.
