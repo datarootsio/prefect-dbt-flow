@@ -22,7 +22,7 @@ The key features include:
  - *Workflow Consistency*: Ensure your dbt workflows run consistently by managing them through Prefect. This consistency is crucial for maintaining data quality and reliability.
  - *Advanced Configuration*: Customize your dbt workflow by adjusting the dbt project, profile, and DAG options. You can also use Prefect features like scheduling, notifications, and task retries to monitor and manage your dbt flows effectively.
 
-To get started, check out our [getting started guide](https://datarootsio.github.io/prefect-dbt-flow/getting_started/).
+To get started, check out our [getting started guide](https://datarootsio.github.io/prefect-dbt-flow/latest/getting_started/).
 
 **Active Development Notice:** *prefect-dbt-flow is actively under development and may not be ready for production use. We advise users to be aware of potential breaking changes as the library evolves. Please check the changelog for updates.*
 
