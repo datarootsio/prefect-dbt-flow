@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "prefect-dbt-flow"
-version = "0.1.0"
-description = "Prefect - DBT integration"
+version = "0.0.0"
+description = "Prefect - dbt integration"
 authors = [
     "David Valdez <david@dataroots.io>",
     "Nico Gelders <nico@dataroots.io>",

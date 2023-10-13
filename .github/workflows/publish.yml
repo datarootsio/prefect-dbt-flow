@@ -36,20 +36,20 @@ jobs:
         run: |
           pip install poetry==${{ env.POETRY_VERSION }}
           poetry install
-      # - name: Bump package version
-      #   run: |
-      #     poetry version ${{ needs.get-new-tag.outputs.tag-id }}
-      #     echo '__version__ = "${{ needs.get-new-tag.outputs.tag-id }}"' > databooks/version.py
-      # - name: Configure PiPy, version and build
-      #   run: |
-      #     poetry config pypi-token.pypi ${{ secrets.PIPY_TOKEN }}
-      #     poetry config repositories.test-pypi https://test.pypi.org/legacy/
-      #     poetry config pypi-token.test-pypi ${{ secrets.TEST_PIPY_TOKEN }}
-      #     poetry build
-      # - name: Publish packages
-      #   run: |
-      #     poetry publish -r test-pypi
-      #     poetry publish
+      - name: Bump package version
+        run: |
+          poetry version ${{ needs.get-new-tag.outputs.tag-id }}
+          echo '__version__ = "${{ needs.get-new-tag.outputs.tag-id }}"' > prefect_dbt_flow/version.py
+      - name: Configure PiPy, version and build
+        run: |
+          poetry config pypi-token.pypi ${{ secrets.PIPY_TOKEN }}
+          poetry config repositories.test-pypi https://test.pypi.org/legacy/
+          poetry config pypi-token.test-pypi ${{ secrets.TEST_PIPY_TOKEN }}
+          poetry build
+      - name: Publish packages
+        run: |
+          poetry publish -r test-pypi
+          poetry publish
       - name: Tag
         uses: actions/github-script@v5
         with:

@@ -1,0 +1,39 @@
+version: "3.1"
+
+services:
+  data-db:
+    image: postgres:15.2-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=pass123
+      - POSTGRES_DB=data
+    expose:
+      - 5432
+
+  server:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    restart: always
+    entrypoint: ["/opt/prefect/entrypoint.sh", "prefect", "server", "start"]
+    environment:
+      - PREFECT_UI_URL=http://127.0.0.0:4200/api
+      - PREFECT_API_URL=http://127.0.0.1:4200/api
+      - PREFECT_SERVER_API_HOST=0.0.0.0
+      - PREFECT_API_DATABASE_CONNECTION_URL=sqlite+aiosqlite:////opt/prefect/prefect.db
+    ports:
+      - 4200:4200
+
+  cli:
+    build: .
+    entrypoint: "bash"
+    working_dir: "/root/flows"
+    volumes:
+      - ".:/root/flows"
+    environment:
+      - PREFECT_API_URL=http://server:4200/api
+
+networks:
+  default:
+    name: prefect-dbt-network
