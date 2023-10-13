@@ -2,7 +2,13 @@
 import json
 from typing import List, Optional
 
-from prefect_dbt_flow.dbt import DbtDagOptions, DbtNode, DbtProject, cli
+from prefect_dbt_flow.dbt import (
+    DbtDagOptions,
+    DbtNode,
+    DbtProject,
+    DbtResourceType,
+    cli,
+)
 
 
 def parse_dbt_project(
@@ -32,12 +38,22 @@ def parse_dbt_project(
                     DbtNode(
                         name=node_dict["name"],
                         unique_id=node_dict["unique_id"],
-                        resource_type=node_dict["resource_type"],
+                        resource_type=DbtResourceType.MODEL,
                         depends_on=node_dict["depends_on"].get("nodes", []),
                     )
                 )
             if node_dict["resource_type"] == "test":
                 models_with_tests.extend(node_dict["depends_on"]["nodes"])
+
+            if node_dict["resource_type"] == "seed":
+                dbt_graph.append(
+                    DbtNode(
+                        name=node_dict["name"],
+                        unique_id=node_dict["unique_id"],
+                        resource_type=DbtResourceType.SEED,
+                        depends_on=node_dict["depends_on"].get("nodes", []),
+                    )
+                )
 
         except json.decoder.JSONDecodeError:
             pass

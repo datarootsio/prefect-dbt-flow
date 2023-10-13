@@ -1,15 +1,16 @@
-name: "example_jaffle_shop"
+name: "jaffle_shop_duckdb"
 
 config-version: 2
 version: "0.1"
 
-profile: "example_jaffle_shop"
+profile: "jaffle_shop_duckdb"
 
 model-paths: ["models"]
 seed-paths: ["seeds"]
 test-paths: ["tests"]
 analysis-paths: ["analysis"]
 macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
 
 target-path: "target"
 clean-targets:

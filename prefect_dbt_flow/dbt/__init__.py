@@ -1,7 +1,18 @@
 """Code for managing and configuring a dbt project."""
 from dataclasses import dataclass
+from enum import Enum, auto
 from pathlib import Path
 from typing import List, Optional, Union
+
+
+class DbtResourceType(Enum):
+    """
+    Enum class that represents a dbt resource type.
+    """
+
+    MODEL = auto()
+    SEED = auto()
+    SNAPSHOT = auto()
 
 
 @dataclass
@@ -40,14 +51,14 @@ class DbtNode:
     Args:
         name: dbt node name, e. my_model_a
         unique_id: dbt id e. model.sample_project.my_model_a
-        resource_type: "model" or "test"
+        resource_type: dbt resource type, e. model or seed
         depends_on: e. ["model.sample_project.my_model_b"]
         has_tests: if node is a test
     """
 
     name: str
     unique_id: str
-    resource_type: str
+    resource_type: DbtResourceType
     depends_on: List[str]
     has_tests: bool = False
 

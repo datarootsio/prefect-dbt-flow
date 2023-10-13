@@ -1,0 +1,9 @@
+jaffle_shop_duckdb:
+  target: prod
+  outputs:
+    prod:
+      type: duckdb
+      path: /tmp/prefect_dbt_flow_prod.duckdb
+    test:
+      type: duckdb
+      path: "{{ env_var('DUCKDB_DB_FILE') }}"
