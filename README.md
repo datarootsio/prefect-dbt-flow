@@ -43,21 +43,19 @@ from prefect_dbt_flow.dbt import DbtProfile, DbtProject, DbtDagOptions
 
 my_flow = dbt_flow(
     project=DbtProject(
-        name="my_flow",
-        project_dir="path_to/dbt_project",
-        profiles_dir="path_to/dbt_profiles",
+        name="jaffle_shop",
+        project_dir="path_to/jaffle_shop",
+        profiles_dir="path_to/jaffle_shop",
     ),
     profile=DbtProfile(
         target="dev",
-    ),
-    dag_options=DbtDagOptions(
-        run_test_after_model=True,
     ),
 )
 
 if __name__ == "__main__":
     my_flow()
 ```
+![jaffle_shop_dag](./docs/images/jaffle_shop_dag.png)   
 
 For more information consult the [docs](https://datarootsio.github.io/prefect-dbt-flow/)
 
