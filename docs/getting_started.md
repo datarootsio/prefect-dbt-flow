@@ -1,4 +1,4 @@
-# Getting started guide
+# Getting started
 
 The prefect-dbt-flow library allows you to seamlessly integrate dbt workflows into Prefect. This getting started guide will walk you through the steps required to create and manage a Prefect flow for the [jaffle_shop](https://github.com/dbt-labs/jaffle_shop) dbt project. After this guide, you should be able to create dbt flows for your own dbt projects.
 

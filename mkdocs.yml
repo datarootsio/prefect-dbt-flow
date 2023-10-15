@@ -46,10 +46,16 @@ extra_css:
 nav:
   - Home:
       - Overview: index.md
-      - Getting Started: getting_started.md
-      - API: api.md
+      - Getting started: getting_started.md
+      - How it works: how_it_works.md
       - Changelog: https://github.com/datarootsio/prefect-dbt-flow/releases
       - License: license.md
+  - API:
+      - dbt Flow: api/flow.md
+      - dbt Models: api/models.md
+      - dbt Tasks: api/tasks.md
+      - dbt Graph: api/graph.md
+      - dbt CLI: api/cli.md
 
 copyright: "Maintained by dataroots"
 
