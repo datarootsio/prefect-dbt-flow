@@ -45,6 +45,6 @@ jobs:
       - name: Unit tests + coverage report
         run: |
           poetry run python --version
-          poetry run pytest -vv --cov=./ --cov-report=xml -n auto
+          poetry run pytest -vv --cov=./ --cov-report=xml
       - name: Upload coverage
         uses: codecov/codecov-action@v1
