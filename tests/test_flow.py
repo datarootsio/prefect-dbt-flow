@@ -5,7 +5,7 @@ import pytest
 from prefect.task_runners import SequentialTaskRunner
 
 from prefect_dbt_flow import dbt_flow
-from prefect_dbt_flow.dbt import DbtProfile, DbtProject
+from prefect_dbt_flow.dbt import DbtDagOptions, DbtProfile, DbtProject
 
 SAMPLE_PROJECT_PATH = Path(__file__).parent.parent / "examples" / "sample_project"
 JAFFLE_SHOP_PATH = Path(__file__).parent.parent / "examples" / "jaffle_shop_duckdb"
@@ -48,6 +48,96 @@ def test_flow_sample_project(duckdb_db_file: Path):
             (3,),
             (4,),
         ]
+
+
+def test_flow_sample_project_with_tests(duckdb_db_file: Path):
+    dbt_project_path = SAMPLE_PROJECT_PATH
+
+    my_dbt_flow = dbt_flow(
+        project=DbtProject(
+            name="sample_project",
+            project_dir=dbt_project_path,
+            profiles_dir=dbt_project_path,
+        ),
+        profile=DbtProfile(
+            target="test",
+        ),
+        dag_options=DbtDagOptions(
+            run_test_after_model=True,
+        ),
+        flow_kwargs={
+            # Ensure only one process has access to the duckdb db
+            # file at the same time
+            "task_runner": SequentialTaskRunner(),
+        },
+    )
+
+    my_dbt_flow()
+
+    with duckdb.connect(str(duckdb_db_file)) as ddb:
+        assert len(ddb.sql("SHOW ALL TABLES").fetchall()) == 4
+        assert ddb.sql("SELECT * FROM my_model_d ORDER BY id").fetchall() == [
+            (1,),
+            (2,),
+            (3,),
+            (4,),
+        ]
+
+
+def test_flow_sample_project_select(duckdb_db_file: Path):
+    dbt_project_path = SAMPLE_PROJECT_PATH
+
+    my_dbt_flow = dbt_flow(
+        project=DbtProject(
+            name="sample_project",
+            project_dir=dbt_project_path,
+            profiles_dir=dbt_project_path,
+        ),
+        profile=DbtProfile(
+            target="test",
+        ),
+        dag_options=DbtDagOptions(
+            select="+my_model_c",
+        ),
+        flow_kwargs={
+            # Ensure only one process has access to the duckdb db
+            # file at the same time
+            "task_runner": SequentialTaskRunner(),
+        },
+    )
+
+    my_dbt_flow()
+
+    with duckdb.connect(str(duckdb_db_file)) as ddb:
+        assert len(ddb.sql("SHOW ALL TABLES").fetchall()) == 3
+
+
+def test_flow_sample_project_exclude(duckdb_db_file: Path):
+    dbt_project_path = SAMPLE_PROJECT_PATH
+
+    my_dbt_flow = dbt_flow(
+        project=DbtProject(
+            name="sample_project",
+            project_dir=dbt_project_path,
+            profiles_dir=dbt_project_path,
+        ),
+        profile=DbtProfile(
+            target="test",
+        ),
+        dag_options=DbtDagOptions(
+            exclude="my_model_c+",
+        ),
+        flow_kwargs={
+            # Ensure only one process has access to the duckdb db
+            # file at the same time
+            "task_runner": SequentialTaskRunner(),
+        },
+    )
+
+    my_dbt_flow()
+
+    with duckdb.connect(str(duckdb_db_file)) as ddb:
+        assert len(ddb.sql("SHOW ALL TABLES").fetchall()) == 2
 
 
 def test_flow_jaffle_shop(duckdb_db_file: Path):

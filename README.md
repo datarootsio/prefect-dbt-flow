@@ -1,7 +1,4 @@
 <p align="center">
-  <a href="https://datarootsio.github.io/prefect-dbt-flow"><img alt="logo" src="https://dataroots.io/assets/logo/logo-rainbow.png"></a>
-</p>
-<p align="center">
   <a href="https://dataroots.io"><img alt="Maintained by dataroots" src="https://dataroots.io/maintained-rnd.svg" /></a>
   <a href="https://pypi.org/project/prefect-dbt-flow/"><img alt="Python versions" src="https://img.shields.io/pypi/pyversions/prefect-dbt-flow" /></a>
   <a href="https://pypi.org/project/prefect-dbt-flow/"><img alt="PiPy" src="https://img.shields.io/pypi/v/prefect-dbt-flow" /></a>
@@ -63,7 +60,7 @@ For more information consult the [docs](https://datarootsio.github.io/prefect-db
 prefect-dbt-flow draws inspiration from various projects in the data engineering and workflow orchestration space, including:
 - [astronomer-cosmos](https://github.com/astronomer/astronomer-cosmos)
 - [dbt + Dagster](https://docs.dagster.io/integrations/dbt)
-- [Anna Geller](https://github.com/anna-geller/prefect-dataplatform)
+- [prefect-dataplatform - Anna Geller](https://github.com/anna-geller/prefect-dataplatform)
 
 # License
 This project is licensed under the MIT License. You are free to use, modify, and distribute this software as per the terms of the license. If you find this project helpful, please consider giving it a star on GitHub.

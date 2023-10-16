@@ -5,30 +5,29 @@ jobs:
   linting:
     env:
       POETRY_VERSION: 1.5.1
+      PYTHON_VERSION: 3.11
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: ["3.10", "3.11"]
     steps:
       - uses: actions/checkout@v2
-      - name: Set up Python ${{ matrix.python-version }}
+      - name: Set up Python ${{ env.PYTHON_VERSION }}
         uses: actions/setup-python@v2
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: ${{ env.PYTHON_VERSION }}
       - name: setup poetry
         run: |
           pip install poetry==${{ env.POETRY_VERSION }}
           poetry config virtualenvs.create false
           poetry install --no-interaction --no-ansi
       - name: run precommit hooks
-        run: pre-commit run --all-files
+        run: |
+          poetry run pre-commit run --all-files
   tests:
     env:
       POETRY_VERSION: 1.5.1
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.10", "3.11"]
+        python-version: ["3.9", "3.10", "3.11"]
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python ${{ matrix.python-version }}
@@ -40,5 +39,13 @@ jobs:
           pip install poetry==${{ env.POETRY_VERSION }}
           poetry config virtualenvs.create false
           poetry install --no-interaction --no-ansi
-      - name: run pytest
-        run: poetry run pytest
+      - name: Configure git user for git unit tests
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+      - name: Unit tests + coverage report
+        run: |
+          poetry run python --version
+          poetry run pytest -vv --cov=./ --cov-report=xml
+      - name: Upload coverage
+        uses: codecov/codecov-action@v1

@@ -13,7 +13,7 @@ repository = "https://github.com/datarootsio/prefect-dbt-flow"
 keywords = ["dbt", "prefect"]
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.9"
 prefect = "^2.7"
 
 [tool.poetry.group.dev.dependencies]
@@ -30,6 +30,8 @@ mkdocs-autorefs = "^0.5.0"
 mkdocs-coverage = "^1.0.0"
 mkdocstrings = { extras = ["python"], version = "^0.23.0" }
 coverage = "^7.3.2"
+pytest-xdist = "^3.3.1"
+pytest-cov = "^4.1.0"
 
 [build-system]
 requires = ["poetry-core"]
