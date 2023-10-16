@@ -170,4 +170,3 @@ logs/
 venv/
 env/
 test.env
-__pycache__
