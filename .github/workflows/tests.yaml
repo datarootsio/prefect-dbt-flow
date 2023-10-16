@@ -19,7 +19,8 @@ jobs:
           poetry config virtualenvs.create false
           poetry install --no-interaction --no-ansi
       - name: run precommit hooks
-        run: pre-commit run --all-files
+        run: |
+          poetry run pre-commit run --all-files
   tests:
     env:
       POETRY_VERSION: 1.5.1
