@@ -1,5 +1,5 @@
-name: 'tests'
-on: [push, pull_request]
+name: "tests"
+on: [push]
 
 jobs:
   linting:
