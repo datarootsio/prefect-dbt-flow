@@ -42,12 +42,9 @@ jobs:
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-      - name: Unit tests
+      - name: Unit tests + coverage report
         run: |
           poetry run python --version
-          poetry run pytest -vv
-      - name: Coverage report
-        run: |
-          poetry run pytest --cov=./ --cov-report=xml
+          poetry run pytest -vv --cov=./ --cov-report=xml -n auto
       - name: Upload coverage
         uses: codecov/codecov-action@v1
