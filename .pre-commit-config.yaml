@@ -1,28 +1,25 @@
 repos:
-  - repo: local
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.0.292
+    hooks:
+      - id: ruff
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.2.0
+    hooks:
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+  - repo: https://github.com/psf/black
+    rev: 22.3.0
+    hooks:
+      - id: black
+        files: (prefect_dbt_flow/|tests/)
+  - repo: https://github.com/pycqa/isort
+    rev: 5.11.5
     hooks:
       - id: isort
-        name: isort
-        stages: [commit]
-        types: [python]
-        entry: poetry run isort .
-        language: system
-        pass_filenames: false
-        always_run: true
-      - id: black
-        name: black
-        stages: [commit]
-        types: [python]
-        entry: poetry run black .
-        language: system
-        pass_filenames: false
-        always_run: true
-      - id: ruff
-        name: ruff
-        stages: [commit]
-        types: [python]
-        entry: poetry run ruff .
-        language: system
-        pass_filenames: false
-        always_run: true
-        fail_fast: true
+        files: (prefect_dbt_flow/|tests/)
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v0.942
+    hooks:
+      - id: mypy
+        files: prefect_dbt_flow/
