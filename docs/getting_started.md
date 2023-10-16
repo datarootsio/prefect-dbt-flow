@@ -20,7 +20,7 @@ cd prefect-dbt-flow/example/jaffle_shop
 Ensure that you have Docker Compose installed on your system. If you haven't already installed it, refer to the [Docker Compose Installation Guide](https://docs.docker.com/compose/install/) for instructions.
 
 ### 3. Start the Docker Containers
-The following command will launch three services defined in the docker-compose file:  
+The following command will launch three services defined in the docker-compose file:
 
  - A PostgreSQL database,
  - A Prefect server accessible at: `http://0.0.0.0:4200/` or `http://localhost:4200/`

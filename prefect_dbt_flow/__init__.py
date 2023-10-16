@@ -3,9 +3,9 @@
 # ruff: noqa: F401
 # fmt: off
 from prefect_dbt_flow.dbt import (
-    DbtDagOptions, 
-    DbtNode, 
-    DbtProfile, 
+    DbtDagOptions,
+    DbtNode,
+    DbtProfile,
     DbtProject
     )
 from prefect_dbt_flow.flow import dbt_flow

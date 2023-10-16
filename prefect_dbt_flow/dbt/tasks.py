@@ -1,7 +1,8 @@
 """Code for generate prefect DAG, includes dbt run and test functions"""
-from typing import Any, Dict, List, Optional
+from typing import Dict, List, Optional
 
-from prefect import get_run_logger, task
+from prefect import Task, get_run_logger, task
+from prefect.futures import PrefectFuture
 
 from prefect_dbt_flow.dbt import DbtNode, DbtProfile, DbtProject, DbtResourceType, cli
 
@@ -15,7 +16,7 @@ def _task_dbt_seed(
     profile: DbtProfile,
     dbt_node: DbtNode,
     task_kwargs: Optional[Dict] = None,
-):
+) -> Task:
     """
     Create a Prefect task for running a dbt seed. Uses dbt_seed from cli module
 
@@ -52,7 +53,7 @@ def _task_dbt_run(
     profile: DbtProfile,
     dbt_node: DbtNode,
     task_kwargs: Optional[Dict] = None,
-):
+) -> Task:
     """
     Create a Prefect task for running a dbt model. Uses dbt_run from cli module
 
@@ -89,7 +90,7 @@ def _task_dbt_test(
     profile: DbtProfile,
     dbt_node: DbtNode,
     task_kwargs: Optional[Dict] = None,
-):
+) -> Task:
     """
     Create a Prefect task for testing a dbt model. Uses dbt_test from cli module
 
@@ -157,7 +158,7 @@ def generate_tasks_dag(
         for dbt_node in dbt_graph
     }
 
-    submitted_tasks: Dict[str, Any] = {}
+    submitted_tasks: Dict[str, PrefectFuture] = {}
     while node := _get_next_node(dbt_graph, list(submitted_tasks.keys())):
         run_task = all_tasks[node.unique_id]
         task_dependencies = [
