@@ -5,16 +5,14 @@ jobs:
   linting:
     env:
       POETRY_VERSION: 1.5.1
+      PYTHON_VERSION: 3.11
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: ["3.10", "3.11"]
     steps:
       - uses: actions/checkout@v2
-      - name: Set up Python ${{ matrix.python-version }}
+      - name: Set up Python ${{ env.PYTHON_VERSION }}
         uses: actions/setup-python@v2
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: ${{ env.PYTHON_VERSION }}
       - name: setup poetry
         run: |
           pip install poetry==${{ env.POETRY_VERSION }}
@@ -28,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.10", "3.11"]
+        python-version: ["3.8", "3.9", "3.10", "3.11"]
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python ${{ matrix.python-version }}
@@ -40,5 +38,16 @@ jobs:
           pip install poetry==${{ env.POETRY_VERSION }}
           poetry config virtualenvs.create false
           poetry install --no-interaction --no-ansi
-      - name: run pytest
-        run: poetry run pytest
+      - name: Configure git user for git unit tests
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+      - name: Unit tests
+        run: |
+          poetry run python --version
+          poetry run pytest -vv
+      - name: Coverage report
+        run: |
+          poetry run pytest --cov=./ --cov-report=xml
+      - name: Upload coverage
+        uses: codecov/codecov-action@v1

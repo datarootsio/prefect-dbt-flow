@@ -60,7 +60,7 @@ For more information consult the [docs](https://datarootsio.github.io/prefect-db
 prefect-dbt-flow draws inspiration from various projects in the data engineering and workflow orchestration space, including:
 - [astronomer-cosmos](https://github.com/astronomer/astronomer-cosmos)
 - [dbt + Dagster](https://docs.dagster.io/integrations/dbt)
-- [Anna Geller](https://github.com/anna-geller/prefect-dataplatform)
+- [prefect-dataplatform - Anna Geller](https://github.com/anna-geller/prefect-dataplatform)
 
 # License
 This project is licensed under the MIT License. You are free to use, modify, and distribute this software as per the terms of the license. If you find this project helpful, please consider giving it a star on GitHub.
