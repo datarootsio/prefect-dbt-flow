@@ -1,6 +1,0 @@
-dbt-core==1.5.2
-dbt-duckdb==1.5.2
-prefect
-prefect-aws
-s3fs
-poetry
