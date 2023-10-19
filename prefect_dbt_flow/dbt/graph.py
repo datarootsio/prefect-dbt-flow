@@ -42,7 +42,7 @@ def parse_dbt_project(
                         depends_on=node_dict["depends_on"].get("nodes", []),
                     )
                 )
-            
+
             if node_dict["resource_type"] == "test":
                 models_with_tests.extend(node_dict["depends_on"]["nodes"])
 
