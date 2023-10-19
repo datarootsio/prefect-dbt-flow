@@ -85,6 +85,8 @@ def dbt_seed(project: DbtProject, profile: DbtProfile, seed: str) -> str:
     Function that executes `dbt seed` command
 
     Args:
+        project: A class that represents a dbt project configuration.
+        profile: A class that represents a dbt profile configuration.
         seed: Name of the seed to run.
 
     Returns:
@@ -95,5 +97,26 @@ def dbt_seed(project: DbtProject, profile: DbtProfile, seed: str) -> str:
     dbt_seed_cmd.extend(["--profiles-dir", str(project.profiles_dir)])
     dbt_seed_cmd.extend(["-t", profile.target])
     dbt_seed_cmd.extend(["--select", seed])
+
+    return cmd.run(" ".join(dbt_seed_cmd))
+
+
+def dbt_snapshot(project: DbtProject, profile: DbtProfile, snapshot: str) -> str:
+    """
+    Function that executes `dbt snapshot` command
+
+    Args:
+        project: A class that represents a dbt project configuration.
+        profile: A class that represents a dbt profile configuration.
+        snapshot: Name of the snapshot to run.
+
+    Returns:
+        A string representing the output of the `dbt snapshot` command
+    """
+    dbt_seed_cmd = [DBT_EXE, "snapshot"]
+    dbt_seed_cmd.extend(["--project-dir", str(project.project_dir)])
+    dbt_seed_cmd.extend(["--profiles-dir", str(project.profiles_dir)])
+    dbt_seed_cmd.extend(["-t", profile.target])
+    dbt_seed_cmd.extend(["--select", snapshot])
 
     return cmd.run(" ".join(dbt_seed_cmd))

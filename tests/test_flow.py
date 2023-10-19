@@ -162,4 +162,4 @@ def test_flow_jaffle_shop(duckdb_db_file: Path):
     my_dbt_flow()
 
     with duckdb.connect(str(duckdb_db_file)) as ddb:
-        assert len(ddb.sql("SHOW ALL TABLES").fetchall()) == 8
+        assert len(ddb.sql("SHOW ALL TABLES").fetchall()) == 9

@@ -6,9 +6,47 @@ from prefect.futures import PrefectFuture
 
 from prefect_dbt_flow.dbt import DbtNode, DbtProfile, DbtProject, DbtResourceType, cli
 
-DBT_SEED_EMOJI = "🌱"
 DBT_RUN_EMOJI = "🏃"
 DBT_TEST_EMOJI = "🧪"
+DBT_SEED_EMOJI = "🌱"
+DBT_SNAPSHOT_EMOJI = "📸"
+
+
+def _task_dbt_snapshot(
+    project: DbtProject,
+    profile: DbtProfile,
+    dbt_node: DbtNode,
+    task_kwargs: Optional[Dict] = None,
+) -> Task:
+    """
+    Create a Prefect task for running a dbt snapshot. Uses dbt_snapshot from cli module
+
+    Args:
+        project: A class that represents a dbt project configuration.
+        profile: A class that represents a dbt profile configuration.
+        dbt_node: A class that represents the dbt node (model) to run.
+        task_kwargs: Additional task configuration.
+
+    Returns:
+        dbt_snapshot: Prefect task.
+    """
+    all_task_kwargs = {
+        **(task_kwargs or {}),
+        "name": f"{DBT_SNAPSHOT_EMOJI} snapshot_{dbt_node.name}",
+    }
+
+    @task(**all_task_kwargs)
+    def dbt_snapshot():
+        """
+        Snapshots a dbt snapshot
+
+        Returns:
+            None
+        """
+        dbt_snapshot_output = cli.dbt_snapshot(project, profile, dbt_node.name)
+        get_run_logger().info(dbt_snapshot_output)
+
+    return dbt_snapshot
 
 
 def _task_dbt_seed(
@@ -125,7 +163,7 @@ def _task_dbt_test(
 RESOURCE_TYPE_TO_TASK = {
     DbtResourceType.SEED: _task_dbt_seed,
     DbtResourceType.MODEL: _task_dbt_run,
-    DbtResourceType.SNAPSHOT: _task_dbt_run,
+    DbtResourceType.SNAPSHOT: _task_dbt_snapshot,
 }
 
 
