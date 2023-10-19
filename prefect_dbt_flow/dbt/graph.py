@@ -42,6 +42,7 @@ def parse_dbt_project(
                         depends_on=node_dict["depends_on"].get("nodes", []),
                     )
                 )
+
             if node_dict["resource_type"] == "test":
                 models_with_tests.extend(node_dict["depends_on"]["nodes"])
 
@@ -51,6 +52,16 @@ def parse_dbt_project(
                         name=node_dict["name"],
                         unique_id=node_dict["unique_id"],
                         resource_type=DbtResourceType.SEED,
+                        depends_on=node_dict["depends_on"].get("nodes", []),
+                    )
+                )
+
+            if node_dict["resource_type"] == "snapshot":
+                dbt_graph.append(
+                    DbtNode(
+                        name=node_dict["name"],
+                        unique_id=node_dict["unique_id"],
+                        resource_type=DbtResourceType.SNAPSHOT,
                         depends_on=node_dict["depends_on"].get("nodes", []),
                     )
                 )
