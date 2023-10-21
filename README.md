@@ -5,6 +5,9 @@
   <a href="https://pepy.tech/project/prefect-dbt-flow"><img alt="Downloads" src="https://pepy.tech/badge/prefect-dbt-flow" /></a>
   <a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg" /></a>
   <a href="http://mypy-lang.org/"><img alt="Mypy checked" src="https://img.shields.io/badge/mypy-checked-1f5082.svg" /></a>
+  <a href="https://codecov.io/gh/datarootsio/prefect-dbt-flow" >
+    <img src="https://codecov.io/gh/datarootsio/prefect-dbt-flow/graph/badge.svg?token=NQ6RMX6670"/>
+  </a>
 </p>
 
 # prefect-dbt-flow
@@ -52,7 +55,7 @@ my_flow = dbt_flow(
 if __name__ == "__main__":
     my_flow()
 ```
-![jaffle_shop_dag](https://raw.githubusercontent.com/datarootsio/prefect-dbt-flow/4631887e37197a20aa9549cacb652d594446480b/docs/images/jaffle_shop_dag.png)
+![jaffle_shop_dag](https://raw.githubusercontent.com/datarootsio/prefect-dbt-flow/main/docs/images/jaffle_shop_dag.png)
 
 For more information consult the [docs](https://datarootsio.github.io/prefect-dbt-flow/)
 
