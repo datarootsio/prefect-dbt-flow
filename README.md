@@ -5,6 +5,9 @@
   <a href="https://pepy.tech/project/prefect-dbt-flow"><img alt="Downloads" src="https://pepy.tech/badge/prefect-dbt-flow" /></a>
   <a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg" /></a>
   <a href="http://mypy-lang.org/"><img alt="Mypy checked" src="https://img.shields.io/badge/mypy-checked-1f5082.svg" /></a>
+  <a href="https://codecov.io/gh/datarootsio/prefect-dbt-flow" >
+    <img src="https://codecov.io/gh/datarootsio/prefect-dbt-flow/graph/badge.svg?token=NQ6RMX6670"/>
+  </a>
 </p>
 
 # prefect-dbt-flow
