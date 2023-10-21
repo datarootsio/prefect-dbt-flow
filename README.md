@@ -12,7 +12,7 @@ prefect-dbt-flow is a Python library that enables Prefect to convert dbt workflo
 
 dbt is an immensely popular tool for building and testing data transformation models, and Prefect is a versatile workflow management system. This integration brings together the best of both worlds, empowering data engineers and analysts to create robust data pipelines.
 
-The key features include:
+Key features:
 
  - *Simplified Orchestration*: Define and manage your dbt projects and models as Prefect tasks, creating a seamless pipeline for data transformation.
  - *Monitoring and Error Handling*: Gain deep insights into the execution of your dbt workflows and take immediate action in case of issues.
@@ -52,7 +52,7 @@ my_flow = dbt_flow(
 if __name__ == "__main__":
     my_flow()
 ```
-![jaffle_shop_dag](./docs/images/jaffle_shop_dag.png)
+![jaffle_shop_dag](https://raw.githubusercontent.com/datarootsio/prefect-dbt-flow/4631887e37197a20aa9549cacb652d594446480b/docs/images/jaffle_shop_dag.png)
 
 For more information consult the [docs](https://datarootsio.github.io/prefect-dbt-flow/)
 
