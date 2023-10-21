@@ -52,7 +52,7 @@ my_flow = dbt_flow(
 if __name__ == "__main__":
     my_flow()
 ```
-![jaffle_shop_dag](./docs/images/jaffle_shop_dag.png)
+![jaffle_shop_dag](https://raw.githubusercontent.com/datarootsio/prefect-dbt-flow/4631887e37197a20aa9549cacb652d594446480b/docs/images/jaffle_shop_dag.png)
 
 For more information consult the [docs](https://datarootsio.github.io/prefect-dbt-flow/)
 
