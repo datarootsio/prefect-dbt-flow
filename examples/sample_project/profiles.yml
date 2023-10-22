@@ -10,3 +10,6 @@ sample_project:
     test:
       type: duckdb
       path: "{{ env_var('DUCKDB_DB_FILE') }}"
+    override_in_test:
+      type: duckdb
+      path: /does/not/exist/so/override.duckdb

@@ -163,3 +163,82 @@ def test_flow_jaffle_shop(duckdb_db_file: Path):
 
     with duckdb.connect(str(duckdb_db_file)) as ddb:
         assert len(ddb.sql("SHOW ALL TABLES").fetchall()) == 9
+
+
+def test_flow_sample_project_overrides_new_profile(duckdb_db_file: Path):
+    dbt_project_path = SAMPLE_PROJECT_PATH
+
+    my_dbt_flow = dbt_flow(
+        project=DbtProject(
+            name="sample_project",
+            project_dir=dbt_project_path,
+            profiles_dir=dbt_project_path,
+        ),
+        profile=DbtProfile(
+            target="something_else",
+            overrides={
+                "type": "duckdb",
+                "path": str(duckdb_db_file.absolute()),
+            },
+        ),
+        flow_kwargs={
+            # Ensure only one process has access to the duckdb db
+            # file at the same time
+            "task_runner": SequentialTaskRunner(),
+        },
+    )
+
+    my_dbt_flow()
+
+    with duckdb.connect(str(duckdb_db_file)) as ddb:
+        assert len(ddb.sql("SHOW ALL TABLES").fetchall()) == 4
+
+
+def test_flow_sample_project_overrides_existing_profile(duckdb_db_file: Path):
+    dbt_project_path = SAMPLE_PROJECT_PATH
+
+    my_dbt_flow = dbt_flow(
+        project=DbtProject(
+            name="sample_project",
+            project_dir=dbt_project_path,
+            profiles_dir=dbt_project_path,
+        ),
+        profile=DbtProfile(
+            target="override_in_test",
+            overrides={
+                "path": str(duckdb_db_file.absolute()),
+            },
+        ),
+        flow_kwargs={
+            # Ensure only one process has access to the duckdb db
+            # file at the same time
+            "task_runner": SequentialTaskRunner(),
+        },
+    )
+
+    my_dbt_flow()
+
+    with duckdb.connect(str(duckdb_db_file)) as ddb:
+        assert len(ddb.sql("SHOW ALL TABLES").fetchall()) == 4
+
+
+def test_flow_sample_project_dont_specify_target(duckdb_db_file: Path):
+    dbt_project_path = SAMPLE_PROJECT_PATH
+
+    my_dbt_flow = dbt_flow(
+        project=DbtProject(
+            name="sample_project",
+            project_dir=dbt_project_path,
+            profiles_dir=dbt_project_path,
+        ),
+        flow_kwargs={
+            # Ensure only one process has access to the duckdb db
+            # file at the same time
+            "task_runner": SequentialTaskRunner(),
+        },
+    )
+
+    my_dbt_flow()
+
+    with duckdb.connect(str(duckdb_db_file)) as ddb:
+        assert len(ddb.sql("SHOW ALL TABLES").fetchall()) == 4
