@@ -32,6 +32,7 @@ mkdocstrings = { extras = ["python"], version = "^0.23.0" }
 coverage = "^7.3.2"
 pytest-xdist = "^3.3.1"
 pytest-cov = "^4.1.0"
+types-pyyaml = "^6.0.12.12"
 
 [build-system]
 requires = ["poetry-core"]

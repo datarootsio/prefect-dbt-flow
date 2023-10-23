@@ -5,6 +5,7 @@ from prefect import Task, get_run_logger, task
 from prefect.futures import PrefectFuture
 
 from prefect_dbt_flow.dbt import DbtNode, DbtProfile, DbtProject, DbtResourceType, cli
+from prefect_dbt_flow.dbt.profile import override_profile
 
 DBT_RUN_EMOJI = "🏃"
 DBT_TEST_EMOJI = "🧪"
@@ -14,7 +15,7 @@ DBT_SNAPSHOT_EMOJI = "📸"
 
 def _task_dbt_snapshot(
     project: DbtProject,
-    profile: DbtProfile,
+    profile: Optional[DbtProfile],
     dbt_node: DbtNode,
     task_kwargs: Optional[Dict] = None,
 ) -> Task:
@@ -43,15 +44,16 @@ def _task_dbt_snapshot(
         Returns:
             None
         """
-        dbt_snapshot_output = cli.dbt_snapshot(project, profile, dbt_node.name)
-        get_run_logger().info(dbt_snapshot_output)
+        with override_profile(project, profile) as _project:
+            dbt_snapshot_output = cli.dbt_snapshot(_project, dbt_node.name, profile)
+            get_run_logger().info(dbt_snapshot_output)
 
     return dbt_snapshot
 
 
 def _task_dbt_seed(
     project: DbtProject,
-    profile: DbtProfile,
+    profile: Optional[DbtProfile],
     dbt_node: DbtNode,
     task_kwargs: Optional[Dict] = None,
 ) -> Task:
@@ -80,15 +82,16 @@ def _task_dbt_seed(
         Returns:
             None
         """
-        dbt_seed_output = cli.dbt_seed(project, profile, dbt_node.name)
-        get_run_logger().info(dbt_seed_output)
+        with override_profile(project, profile) as _project:
+            dbt_seed_output = cli.dbt_seed(_project, dbt_node.name, profile)
+            get_run_logger().info(dbt_seed_output)
 
     return dbt_seed
 
 
 def _task_dbt_run(
     project: DbtProject,
-    profile: DbtProfile,
+    profile: Optional[DbtProfile],
     dbt_node: DbtNode,
     task_kwargs: Optional[Dict] = None,
 ) -> Task:
@@ -117,15 +120,16 @@ def _task_dbt_run(
         Returns:
             None
         """
-        dbt_run_output = cli.dbt_run(project, profile, dbt_node.name)
-        get_run_logger().info(dbt_run_output)
+        with override_profile(project, profile) as _project:
+            dbt_run_output = cli.dbt_run(_project, dbt_node.name, profile)
+            get_run_logger().info(dbt_run_output)
 
     return dbt_run
 
 
 def _task_dbt_test(
     project: DbtProject,
-    profile: DbtProfile,
+    profile: Optional[DbtProfile],
     dbt_node: DbtNode,
     task_kwargs: Optional[Dict] = None,
 ) -> Task:
@@ -154,8 +158,9 @@ def _task_dbt_test(
         Returns:
             None
         """
-        dbt_test_output = cli.dbt_test(project, profile, dbt_node.name)
-        get_run_logger().info(dbt_test_output)
+        with override_profile(project, profile) as _project:
+            dbt_test_output = cli.dbt_test(_project, dbt_node.name, profile)
+            get_run_logger().info(dbt_test_output)
 
     return dbt_test
 
@@ -169,7 +174,7 @@ RESOURCE_TYPE_TO_TASK = {
 
 def generate_tasks_dag(
     project: DbtProject,
-    profile: DbtProfile,
+    profile: Optional[DbtProfile],
     dbt_graph: List[DbtNode],
     run_test_after_model: bool = False,
 ) -> None:

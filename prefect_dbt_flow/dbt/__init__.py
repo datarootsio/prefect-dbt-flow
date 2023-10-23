@@ -38,9 +38,11 @@ class DbtProfile:
 
     Args:
         target: dbt target, usualy "dev" or "prod"
+        overrides: dbt profile overrides
     """
 
     target: str
+    overrides: Optional[dict[str, str]] = None
 
 
 @dataclass
