@@ -1,5 +1,5 @@
 sample_project:
-  target: prod
+  target: test
   outputs:
     prod:
       type: duckdb

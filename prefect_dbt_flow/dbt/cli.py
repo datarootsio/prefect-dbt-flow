@@ -38,14 +38,18 @@ def dbt_ls(
     return cmd.run(" ".join(dbt_ls_cmd))
 
 
-def dbt_run(project: DbtProject, profile: DbtProfile, model: str) -> str:
+def dbt_run(
+    project: DbtProject,
+    model: str,
+    profile: Optional[DbtProfile],
+) -> str:
     """
     Function that executes `dbt run` command
 
     Args:
         project: A class that represents a dbt project configuration.
-        profile: A class that represents a dbt profile configuration.
         model: Name of the model to run.
+        profile: A class that represents a dbt profile configuration.
 
     Returns:
         A string representing the output of the `dbt run` command.
@@ -53,20 +57,26 @@ def dbt_run(project: DbtProject, profile: DbtProfile, model: str) -> str:
     dbt_run_cmd = [DBT_EXE, "run"]
     dbt_run_cmd.extend(["--project-dir", str(project.project_dir)])
     dbt_run_cmd.extend(["--profiles-dir", str(project.profiles_dir)])
-    dbt_run_cmd.extend(["-t", profile.target])
     dbt_run_cmd.extend(["-m", model])
+
+    if profile:
+        dbt_run_cmd.extend(["-t", profile.target])
 
     return cmd.run(" ".join(dbt_run_cmd))
 
 
-def dbt_test(project: DbtProject, profile: DbtProfile, model: str) -> str:
+def dbt_test(
+    project: DbtProject,
+    model: str,
+    profile: Optional[DbtProfile],
+) -> str:
     """
     Function that executes `dbt test` command
 
     Args:
         project: A class that represents a dbt project configuration.
-        profile: A class that represents a dbt profile configuration.
         model: Name of the model to run.
+        profile: A class that represents a dbt profile configuration.
 
     Returns:
         A string representing the output of the `dbt test` command.
@@ -74,20 +84,27 @@ def dbt_test(project: DbtProject, profile: DbtProfile, model: str) -> str:
     dbt_test_cmd = [DBT_EXE, "test"]
     dbt_test_cmd.extend(["--project-dir", str(project.project_dir)])
     dbt_test_cmd.extend(["--profiles-dir", str(project.profiles_dir)])
-    dbt_test_cmd.extend(["-t", profile.target])
     dbt_test_cmd.extend(["-m", model])
+
+    if profile:
+        dbt_test_cmd.extend(["-t", profile.target])
 
     return cmd.run(" ".join(dbt_test_cmd))
 
 
-def dbt_seed(project: DbtProject, profile: DbtProfile, seed: str) -> str:
+def dbt_seed(
+    project: DbtProject,
+    seed: str,
+    profile: Optional[DbtProfile],
+) -> str:
     """
     Function that executes `dbt seed` command
 
     Args:
         project: A class that represents a dbt project configuration.
-        profile: A class that represents a dbt profile configuration.
         seed: Name of the seed to run.
+        profile: A class that represents a dbt profile configuration.
+
 
     Returns:
         A string representing the output of the `dbt seed` command
@@ -95,20 +112,27 @@ def dbt_seed(project: DbtProject, profile: DbtProfile, seed: str) -> str:
     dbt_seed_cmd = [DBT_EXE, "seed"]
     dbt_seed_cmd.extend(["--project-dir", str(project.project_dir)])
     dbt_seed_cmd.extend(["--profiles-dir", str(project.profiles_dir)])
-    dbt_seed_cmd.extend(["-t", profile.target])
     dbt_seed_cmd.extend(["--select", seed])
+
+    if profile:
+        dbt_seed_cmd.extend(["-t", profile.target])
 
     return cmd.run(" ".join(dbt_seed_cmd))
 
 
-def dbt_snapshot(project: DbtProject, profile: DbtProfile, snapshot: str) -> str:
+def dbt_snapshot(
+    project: DbtProject,
+    snapshot: str,
+    profile: Optional[DbtProfile],
+) -> str:
     """
     Function that executes `dbt snapshot` command
 
     Args:
         project: A class that represents a dbt project configuration.
-        profile: A class that represents a dbt profile configuration.
         snapshot: Name of the snapshot to run.
+        profile: A class that represents a dbt profile configuration.
+
 
     Returns:
         A string representing the output of the `dbt snapshot` command
@@ -116,7 +140,9 @@ def dbt_snapshot(project: DbtProject, profile: DbtProfile, snapshot: str) -> str
     dbt_seed_cmd = [DBT_EXE, "snapshot"]
     dbt_seed_cmd.extend(["--project-dir", str(project.project_dir)])
     dbt_seed_cmd.extend(["--profiles-dir", str(project.profiles_dir)])
-    dbt_seed_cmd.extend(["-t", profile.target])
     dbt_seed_cmd.extend(["--select", snapshot])
+
+    if profile:
+        dbt_seed_cmd.extend(["-t", profile.target])
 
     return cmd.run(" ".join(dbt_seed_cmd))

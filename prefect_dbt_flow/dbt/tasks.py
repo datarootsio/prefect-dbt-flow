@@ -15,7 +15,7 @@ DBT_SNAPSHOT_EMOJI = "📸"
 
 def _task_dbt_snapshot(
     project: DbtProject,
-    profile: DbtProfile,
+    profile: Optional[DbtProfile],
     dbt_node: DbtNode,
     task_kwargs: Optional[Dict] = None,
 ) -> Task:
@@ -45,7 +45,7 @@ def _task_dbt_snapshot(
             None
         """
         with override_profile(project, profile) as _project:
-            dbt_snapshot_output = cli.dbt_snapshot(_project, profile, dbt_node.name)
+            dbt_snapshot_output = cli.dbt_snapshot(_project, dbt_node.name, profile)
             get_run_logger().info(dbt_snapshot_output)
 
     return dbt_snapshot
@@ -53,7 +53,7 @@ def _task_dbt_snapshot(
 
 def _task_dbt_seed(
     project: DbtProject,
-    profile: DbtProfile,
+    profile: Optional[DbtProfile],
     dbt_node: DbtNode,
     task_kwargs: Optional[Dict] = None,
 ) -> Task:
@@ -83,7 +83,7 @@ def _task_dbt_seed(
             None
         """
         with override_profile(project, profile) as _project:
-            dbt_seed_output = cli.dbt_seed(_project, profile, dbt_node.name)
+            dbt_seed_output = cli.dbt_seed(_project, dbt_node.name, profile)
             get_run_logger().info(dbt_seed_output)
 
     return dbt_seed
@@ -91,7 +91,7 @@ def _task_dbt_seed(
 
 def _task_dbt_run(
     project: DbtProject,
-    profile: DbtProfile,
+    profile: Optional[DbtProfile],
     dbt_node: DbtNode,
     task_kwargs: Optional[Dict] = None,
 ) -> Task:
@@ -121,7 +121,7 @@ def _task_dbt_run(
             None
         """
         with override_profile(project, profile) as _project:
-            dbt_run_output = cli.dbt_run(_project, profile, dbt_node.name)
+            dbt_run_output = cli.dbt_run(_project, dbt_node.name, profile)
             get_run_logger().info(dbt_run_output)
 
     return dbt_run
@@ -129,7 +129,7 @@ def _task_dbt_run(
 
 def _task_dbt_test(
     project: DbtProject,
-    profile: DbtProfile,
+    profile: Optional[DbtProfile],
     dbt_node: DbtNode,
     task_kwargs: Optional[Dict] = None,
 ) -> Task:
@@ -159,7 +159,7 @@ def _task_dbt_test(
             None
         """
         with override_profile(project, profile) as _project:
-            dbt_test_output = cli.dbt_test(_project, profile, dbt_node.name)
+            dbt_test_output = cli.dbt_test(_project, dbt_node.name, profile)
             get_run_logger().info(dbt_test_output)
 
     return dbt_test
@@ -174,7 +174,7 @@ RESOURCE_TYPE_TO_TASK = {
 
 def generate_tasks_dag(
     project: DbtProject,
-    profile: DbtProfile,
+    profile: Optional[DbtProfile],
     dbt_graph: List[DbtNode],
     run_test_after_model: bool = False,
 ) -> None:

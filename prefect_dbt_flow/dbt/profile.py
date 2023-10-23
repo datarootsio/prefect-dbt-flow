@@ -2,7 +2,7 @@
 from contextlib import contextmanager
 from pathlib import Path
 from tempfile import TemporaryDirectory
-from typing import Generator
+from typing import Generator, Optional
 
 import yaml  # type: ignore
 
@@ -11,7 +11,7 @@ from prefect_dbt_flow.dbt import DbtProfile, DbtProject
 
 @contextmanager
 def override_profile(
-    project: DbtProject, profile: DbtProfile
+    project: DbtProject, profile: Optional[DbtProfile]
 ) -> Generator[DbtProject, None, None]:
     """
     Override dbt profiles.yml with the given profile configuration.
@@ -23,7 +23,7 @@ def override_profile(
     Returns:
         dbt_project: DbtProject.
     """
-    if not profile.overrides:
+    if not profile or not profile.overrides:
         yield project
         return
 
