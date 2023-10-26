@@ -39,7 +39,7 @@ Here's an example of how to use prefect-dbt-flow to create a Prefect flow for yo
 
 ```python
 from prefect_dbt_flow import dbt_flow
-from prefect_dbt_flow.dbt import DbtProfile, DbtProject, DbtDagOptions
+from prefect_dbt_flow.dbt import DbtProfile, DbtProject
 
 my_flow = dbt_flow(
     project=DbtProject(
@@ -49,6 +49,10 @@ my_flow = dbt_flow(
     ),
     profile=DbtProfile(
         target="dev",
+        overrides={
+            "type": "duckdb",
+            "path": "path_to/duckdb.db",
+        },
     ),
 )
 
