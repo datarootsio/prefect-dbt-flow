@@ -39,7 +39,7 @@ Here's an example of how to use prefect-dbt-flow to create a Prefect flow for yo
 
 ```python
 from prefect_dbt_flow import dbt_flow
-from prefect_dbt_flow.dbt import DbtProfile, DbtProject, DbtDagOptions
+from prefect_dbt_flow.dbt import DbtProfile, DbtProject
 
 my_flow = dbt_flow(
     project=DbtProject(
@@ -49,13 +49,18 @@ my_flow = dbt_flow(
     ),
     profile=DbtProfile(
         target="dev",
+        overrides={
+            "type": "duckdb",
+            "path": "path_to/duckdb.db",
+        },
     ),
 )
 
 if __name__ == "__main__":
     my_flow()
 ```
-![jaffle_shop_dag](https://raw.githubusercontent.com/datarootsio/prefect-dbt-flow/main/docs/images/jaffle_shop_dag.png)
+
+<img src="https://raw.githubusercontent.com/datarootsio/prefect-dbt-flow/main/docs/images/jaffle_shop_dag.png" alt="jaffle_shop_dag" width="100%">
 
 For more information consult the [docs](https://datarootsio.github.io/prefect-dbt-flow/)
 
