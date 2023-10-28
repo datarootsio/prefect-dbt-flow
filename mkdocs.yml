@@ -47,6 +47,7 @@ nav:
       - Getting started: getting_started.md
       - How it works: how_it_works.md
       - DAG integration: dag_integration.md
+      - Profile overrides: profile_overrides.md
       - Changelog: https://github.com/datarootsio/prefect-dbt-flow/releases
       - License: license.md
   - API:
