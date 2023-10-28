@@ -3,12 +3,19 @@ from pathlib import Path
 import duckdb
 import pytest
 from prefect.task_runners import SequentialTaskRunner
+from prefect.testing.utilities import prefect_test_harness
 
 from prefect_dbt_flow import dbt_flow
 from prefect_dbt_flow.dbt import DbtDagOptions, DbtProfile, DbtProject
 
 SAMPLE_PROJECT_PATH = Path(__file__).parent.parent / "examples" / "sample_project"
 JAFFLE_SHOP_PATH = Path(__file__).parent.parent / "examples" / "jaffle_shop_duckdb"
+
+
+@pytest.fixture(autouse=True, scope="session")
+def prefect_test_fixture():
+    with prefect_test_harness():
+        yield
 
 
 @pytest.fixture
