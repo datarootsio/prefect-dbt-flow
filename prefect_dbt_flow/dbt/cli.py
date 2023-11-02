@@ -21,6 +21,7 @@ def dbt_ls(
     Args:
         project: A class that represents a dbt project configuration.
         dag_options: A class to add dbt DAG configurations.
+        profile: A class that represents a dbt profile configuration.
         output: Format of output, default is JSON.
 
     Returns:
