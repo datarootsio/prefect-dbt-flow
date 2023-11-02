@@ -74,8 +74,12 @@ class DbtDagOptions:
         select: dbt module to include in the run
         exclude: dbt module to exclude in the run
         run_test_after_model: run test afeter run model
+        vars: dbt vars
+        install_deps: install dbt dependencies
     """
 
     select: Optional[str] = None
     exclude: Optional[str] = None
     run_test_after_model: bool = False
+    vars: Optional[dict[str, str]] = None
+    install_deps: bool = True

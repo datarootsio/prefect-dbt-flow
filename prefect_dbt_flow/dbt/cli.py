@@ -1,4 +1,5 @@
 """Utility functions for interacting with dbt using command-line commands."""
+import json
 import shutil
 from typing import Optional
 
@@ -38,6 +39,8 @@ def dbt_ls(
             dbt_ls_cmd.extend(["--select", dag_options.select])
         if dag_options.exclude:
             dbt_ls_cmd.extend(["--exclude", dag_options.exclude])
+        if dag_options.vars:
+            dbt_ls_cmd.extend(["--vars", f"'{json.dumps(dag_options.vars)}'"])
 
     return cmd.run(" ".join(dbt_ls_cmd))
 
@@ -46,6 +49,7 @@ def dbt_run(
     project: DbtProject,
     model: str,
     profile: Optional[DbtProfile],
+    dag_options: Optional[DbtDagOptions],
 ) -> str:
     """
     Function that executes `dbt run` command
@@ -54,6 +58,7 @@ def dbt_run(
         project: A class that represents a dbt project configuration.
         model: Name of the model to run.
         profile: A class that represents a dbt profile configuration.
+        dag_options: A class to add dbt DAG configurations.
 
     Returns:
         A string representing the output of the `dbt run` command.
@@ -66,6 +71,10 @@ def dbt_run(
     if profile:
         dbt_run_cmd.extend(["-t", profile.target])
 
+    if dag_options:
+        if dag_options.vars:
+            dbt_run_cmd.extend(["--vars", f"'{json.dumps(dag_options.vars)}'"])
+
     return cmd.run(" ".join(dbt_run_cmd))
 
 
@@ -73,6 +82,7 @@ def dbt_test(
     project: DbtProject,
     model: str,
     profile: Optional[DbtProfile],
+    dag_options: Optional[DbtDagOptions],
 ) -> str:
     """
     Function that executes `dbt test` command
@@ -81,6 +91,7 @@ def dbt_test(
         project: A class that represents a dbt project configuration.
         model: Name of the model to run.
         profile: A class that represents a dbt profile configuration.
+        dag_options: A class to add dbt DAG configurations.
 
     Returns:
         A string representing the output of the `dbt test` command.
@@ -93,6 +104,10 @@ def dbt_test(
     if profile:
         dbt_test_cmd.extend(["-t", profile.target])
 
+    if dag_options:
+        if dag_options.vars:
+            dbt_test_cmd.extend(["--vars", f"'{json.dumps(dag_options.vars)}'"])
+
     return cmd.run(" ".join(dbt_test_cmd))
 
 
@@ -100,6 +115,7 @@ def dbt_seed(
     project: DbtProject,
     seed: str,
     profile: Optional[DbtProfile],
+    dag_options: Optional[DbtDagOptions],
 ) -> str:
     """
     Function that executes `dbt seed` command
@@ -108,7 +124,7 @@ def dbt_seed(
         project: A class that represents a dbt project configuration.
         seed: Name of the seed to run.
         profile: A class that represents a dbt profile configuration.
-
+        dag_options: A class to add dbt DAG configurations.
 
     Returns:
         A string representing the output of the `dbt seed` command
@@ -121,6 +137,10 @@ def dbt_seed(
     if profile:
         dbt_seed_cmd.extend(["-t", profile.target])
 
+    if dag_options:
+        if dag_options.vars:
+            dbt_seed_cmd.extend(["--vars", f"'{json.dumps(dag_options.vars)}'"])
+
     return cmd.run(" ".join(dbt_seed_cmd))
 
 
@@ -128,6 +148,7 @@ def dbt_snapshot(
     project: DbtProject,
     snapshot: str,
     profile: Optional[DbtProfile],
+    dag_options: Optional[DbtDagOptions],
 ) -> str:
     """
     Function that executes `dbt snapshot` command
@@ -136,17 +157,21 @@ def dbt_snapshot(
         project: A class that represents a dbt project configuration.
         snapshot: Name of the snapshot to run.
         profile: A class that represents a dbt profile configuration.
-
+        dag_options: A class to add dbt DAG configurations.
 
     Returns:
         A string representing the output of the `dbt snapshot` command
     """
-    dbt_seed_cmd = [DBT_EXE, "snapshot"]
-    dbt_seed_cmd.extend(["--project-dir", str(project.project_dir)])
-    dbt_seed_cmd.extend(["--profiles-dir", str(project.profiles_dir)])
-    dbt_seed_cmd.extend(["--select", snapshot])
+    dbt_snapshot_cmd = [DBT_EXE, "snapshot"]
+    dbt_snapshot_cmd.extend(["--project-dir", str(project.project_dir)])
+    dbt_snapshot_cmd.extend(["--profiles-dir", str(project.profiles_dir)])
+    dbt_snapshot_cmd.extend(["--select", snapshot])
 
     if profile:
-        dbt_seed_cmd.extend(["-t", profile.target])
+        dbt_snapshot_cmd.extend(["-t", profile.target])
 
-    return cmd.run(" ".join(dbt_seed_cmd))
+    if dag_options:
+        if dag_options.vars:
+            dbt_snapshot_cmd.extend(["--vars", f"'{json.dumps(dag_options.vars)}'"])
+
+    return cmd.run(" ".join(dbt_snapshot_cmd))
