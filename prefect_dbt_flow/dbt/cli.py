@@ -11,6 +11,7 @@ DBT_EXE = shutil.which("dbt") or "dbt"
 def dbt_ls(
     project: DbtProject,
     dag_options: Optional[DbtDagOptions],
+    profile: Optional[DbtProfile],
     output: str = "json",
 ) -> str:
     """
@@ -28,6 +29,9 @@ def dbt_ls(
     dbt_ls_cmd.extend(["--project-dir", str(project.project_dir)])
     dbt_ls_cmd.extend(["--profiles-dir", str(project.profiles_dir)])
     dbt_ls_cmd.extend(["--output", output])
+
+    if profile:
+        dbt_ls_cmd.extend(["-t", profile.target])
 
     if dag_options:
         if dag_options.select:

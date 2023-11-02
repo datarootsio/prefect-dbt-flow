@@ -5,14 +5,18 @@ from typing import List, Optional
 from prefect_dbt_flow.dbt import (
     DbtDagOptions,
     DbtNode,
+    DbtProfile,
     DbtProject,
     DbtResourceType,
     cli,
 )
+from prefect_dbt_flow.dbt.profile import override_profile
 
 
 def parse_dbt_project(
-    project: DbtProject, dag_options: Optional[DbtDagOptions] = None
+    project: DbtProject,
+    profile: Optional[DbtProfile],
+    dag_options: Optional[DbtDagOptions] = None,
 ) -> List[DbtNode]:
     """
     Parses a list of dbt nodes class objects from dbt ls cli command.
@@ -27,7 +31,8 @@ def parse_dbt_project(
     dbt_graph: List[DbtNode] = []
     models_with_tests: List[str] = []
 
-    dbt_ls_output = cli.dbt_ls(project, dag_options)
+    with override_profile(project, profile) as _project:
+        dbt_ls_output = cli.dbt_ls(_project, dag_options, profile)
 
     for line in dbt_ls_output.split("\n"):
         try:
