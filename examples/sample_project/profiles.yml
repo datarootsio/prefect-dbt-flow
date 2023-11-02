@@ -13,3 +13,6 @@ sample_project:
     override_in_test:
       type: duckdb
       path: /does/not/exist/so/override.duckdb
+    vars_test:
+      type: "{{ var('adapter_type') }}"
+      path: "{{ var('duckdb_db_path') }}"

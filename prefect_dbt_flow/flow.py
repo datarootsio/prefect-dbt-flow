@@ -29,7 +29,7 @@ def dbt_flow(
         **(flow_kwargs or {}),
     }
 
-    dbt_graph = graph.parse_dbt_project(project, dag_options)
+    dbt_graph = graph.parse_dbt_project(project, profile, dag_options)
 
     @flow(**all_flow_kwargs)
     def dbt_flow():
@@ -42,6 +42,7 @@ def dbt_flow(
         tasks.generate_tasks_dag(
             project,
             profile,
+            dag_options,
             dbt_graph,
             dag_options.run_test_after_model if dag_options else False,
         )
