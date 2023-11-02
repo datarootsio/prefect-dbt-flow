@@ -175,3 +175,33 @@ def dbt_snapshot(
             dbt_snapshot_cmd.extend(["--vars", f"'{json.dumps(dag_options.vars)}'"])
 
     return cmd.run(" ".join(dbt_snapshot_cmd))
+
+
+def dbt_deps(
+    project: DbtProject,
+    profile: Optional[DbtProfile],
+    dag_options: Optional[DbtDagOptions],
+) -> str:
+    """
+    Function that executes `dbt deps` command
+
+    Args:
+        project: A class that represents a dbt project configuration.
+        profile: A class that represents a dbt profile configuration.
+        dag_options: A class to add dbt DAG configurations.
+
+    Returns:
+        A string representing the output of the `dbt deps` command
+    """
+    dbt_deps_cmd = [DBT_EXE, "deps"]
+    dbt_deps_cmd.extend(["--project-dir", str(project.project_dir)])
+    dbt_deps_cmd.extend(["--profiles-dir", str(project.profiles_dir)])
+
+    if profile:
+        dbt_deps_cmd.extend(["-t", profile.target])
+
+    if dag_options:
+        if dag_options.vars:
+            dbt_deps_cmd.extend(["--vars", f"'{json.dumps(dag_options.vars)}'"])
+
+    return cmd.run(" ".join(dbt_deps_cmd))

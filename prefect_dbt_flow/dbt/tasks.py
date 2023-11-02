@@ -54,6 +54,10 @@ def _task_dbt_snapshot(
             None
         """
         with override_profile(project, profile) as _project:
+            if not dag_options or dag_options.install_deps:
+                dbt_deps_output = cli.dbt_deps(_project, profile, dag_options)
+                get_run_logger().info(dbt_deps_output)
+
             dbt_snapshot_output = cli.dbt_snapshot(
                 _project, dbt_node.name, profile, dag_options
             )
@@ -96,6 +100,10 @@ def _task_dbt_seed(
             None
         """
         with override_profile(project, profile) as _project:
+            if not dag_options or dag_options.install_deps:
+                dbt_deps_output = cli.dbt_deps(_project, profile, dag_options)
+                get_run_logger().info(dbt_deps_output)
+
             dbt_seed_output = cli.dbt_seed(
                 _project, dbt_node.name, profile, dag_options
             )
@@ -138,6 +146,10 @@ def _task_dbt_run(
             None
         """
         with override_profile(project, profile) as _project:
+            if not dag_options or dag_options.install_deps:
+                dbt_deps_output = cli.dbt_deps(_project, profile, dag_options)
+                get_run_logger().info(dbt_deps_output)
+
             dbt_run_output = cli.dbt_run(_project, dbt_node.name, profile, dag_options)
             get_run_logger().info(dbt_run_output)
 
@@ -178,6 +190,10 @@ def _task_dbt_test(
             None
         """
         with override_profile(project, profile) as _project:
+            if not dag_options or dag_options.install_deps:
+                dbt_deps_output = cli.dbt_deps(_project, profile, dag_options)
+                get_run_logger().info(dbt_deps_output)
+
             dbt_test_output = cli.dbt_test(
                 _project, dbt_node.name, profile, dag_options
             )

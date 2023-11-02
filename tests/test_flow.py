@@ -1,3 +1,5 @@
+import shutil
+from contextlib import contextmanager
 from pathlib import Path
 
 import duckdb
@@ -24,6 +26,20 @@ def duckdb_db_file(monkeypatch, tmp_path: Path):
     monkeypatch.setenv("DUCKDB_DB_FILE", str(duckdb_db_file))
 
     yield duckdb_db_file
+
+
+@contextmanager
+def dbt_package(project_path: Path, content: str):
+    package_yaml_path = project_path / "packages.yml"
+    dbt_packages_path = project_path / "dbt_packages"
+
+    package_yaml_path.write_text(content)
+
+    try:
+        yield
+    finally:
+        shutil.rmtree(str(dbt_packages_path.absolute()))
+        package_yaml_path.unlink(missing_ok=True)
 
 
 def test_flow_sample_project(duckdb_db_file: Path):
@@ -277,6 +293,40 @@ def test_flow_sample_project_vars(duckdb_db_file: Path):
     )
 
     my_dbt_flow()
+
+    with duckdb.connect(str(duckdb_db_file)) as ddb:
+        assert len(ddb.sql("SHOW ALL TABLES").fetchall()) == 4
+
+
+def test_flow_sample_project_install_deps(duckdb_db_file: Path):
+    dbt_project_path = SAMPLE_PROJECT_PATH
+    packages_yml_content = (
+        """packages:\n"""
+        """  - package: dbt-labs/dbt_utils\n"""
+        """    version: "{{ var('dbt_utils_version') }}"\n"""
+    )
+
+    my_dbt_flow = dbt_flow(
+        project=DbtProject(
+            name="sample_project",
+            project_dir=dbt_project_path,
+            profiles_dir=dbt_project_path,
+        ),
+        dag_options=DbtDagOptions(
+            vars={
+                "dbt_utils_version": "1.1.1",
+            },
+            install_deps=True,
+        ),
+        flow_kwargs={
+            # Ensure only one process has access to the duckdb db
+            # file at the same time
+            "task_runner": SequentialTaskRunner(),
+        },
+    )
+
+    with dbt_package(dbt_project_path, content=packages_yml_content):
+        my_dbt_flow()
 
     with duckdb.connect(str(duckdb_db_file)) as ddb:
         assert len(ddb.sql("SHOW ALL TABLES").fetchall()) == 4

@@ -32,6 +32,9 @@ def parse_dbt_project(
     models_with_tests: List[str] = []
 
     with override_profile(project, profile) as _project:
+        if not dag_options or dag_options.install_deps:
+            cli.dbt_deps(_project, profile, dag_options)
+
         dbt_ls_output = cli.dbt_ls(_project, dag_options, profile)
 
     for line in dbt_ls_output.split("\n"):
