@@ -84,7 +84,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-python@v2
         with:
-          python-version: 3.8
+          python-version: 3.9
       - name: Install dependencies
         run: |
           pip install poetry==${{ env.POETRY_VERSION }}
@@ -96,10 +96,8 @@ jobs:
       - name: Create coverage report
         run: |
           poetry run coverage run -m pytest tests/
-          poetry run coverage report
           poetry run coverage html
       - name: Deploy docs
         run: |
-          poetry run mike delete --all
           poetry run mike deploy --update-aliases ${{ needs.get-new-tag.outputs.tag-id }} latest
           poetry run mike set-default --push latest
