@@ -81,5 +81,6 @@ class DbtDagOptions:
     select: Optional[str] = None
     exclude: Optional[str] = None
     run_test_after_model: bool = False
+    test_selection: str = ''
     vars: Optional[dict[str, str]] = None
     install_deps: bool = True
