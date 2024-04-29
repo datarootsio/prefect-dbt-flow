@@ -108,6 +108,8 @@ def dbt_test(
     if dag_options:
         if dag_options.vars:
             dbt_test_cmd.extend(["--vars", f"'{json.dumps(dag_options.vars)}'"])
+        if dag_options.test_selection != '':
+            dbt_test_cmd.extend([f"--indirect-selection={dag_options.test_selection}"])
 
     return cmd.run(" ".join(dbt_test_cmd))
 

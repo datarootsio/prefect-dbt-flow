@@ -42,6 +42,10 @@ def parse_dbt_project(
         try:
             node_dict = json.loads(line.strip())
 
+            # Skip if the line is not a dict, e.g an empty list []
+            if not isinstance(node_dict, dict):
+                continue
+
             if node_dict["resource_type"] == "model":
                 dbt_graph.append(
                     DbtNode(
