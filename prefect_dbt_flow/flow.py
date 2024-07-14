@@ -11,6 +11,7 @@ def dbt_flow(
     profile: Optional[DbtProfile] = None,
     dag_options: Optional[DbtDagOptions] = None,
     flow_kwargs: Optional[dict] = None,
+    task_kwargs: Optional[dict] = None,
 ) -> Flow:
     """
     Create a PrefectFlow for executing a dbt project.
@@ -20,6 +21,7 @@ def dbt_flow(
         profile: A Class that represents a dbt profile configuration.
         dag_options: A Class to add dbt DAG configurations.
         flow_kwargs: A dict of prefect @flow arguments
+        task_kwargs: A dict of Prefect @task arguments
 
     Returns:
         dbt_flow: A Prefec Flow.
@@ -44,6 +46,7 @@ def dbt_flow(
             profile,
             dag_options,
             dbt_graph,
+            task_kwargs,
             dag_options.run_test_after_model if dag_options else False,
         )
 

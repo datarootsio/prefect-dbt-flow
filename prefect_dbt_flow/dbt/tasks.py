@@ -214,6 +214,7 @@ def generate_tasks_dag(
     profile: Optional[DbtProfile],
     dag_options: Optional[DbtDagOptions],
     dbt_graph: List[DbtNode],
+    task_kwargs: Optional[Dict] = None,
     run_test_after_model: bool = False,
 ) -> None:
     """
@@ -224,6 +225,7 @@ def generate_tasks_dag(
         profile: A class that represents a dbt profile configuration.
         dag_options: A class to add dbt DAG configurations.
         dbt_graph: A list of dbt nodes (models) to include in the DAG.
+        task_kwargs: Additional task configuration for running each model.
         run_test_after_model: If True, run tests after running each model.
 
     Returns:
@@ -237,6 +239,7 @@ def generate_tasks_dag(
             profile=profile,
             dag_options=dag_options,
             dbt_node=dbt_node,
+            task_kwargs=task_kwargs,
         )
         for dbt_node in dbt_graph
     }
