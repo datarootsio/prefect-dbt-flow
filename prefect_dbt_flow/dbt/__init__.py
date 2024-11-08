@@ -4,6 +4,8 @@ from enum import Enum, auto
 from pathlib import Path
 from typing import List, Optional, Union
 
+from prefect import Task
+
 
 class DbtResourceType(Enum):
     """
@@ -73,7 +75,9 @@ class DbtDagOptions:
     Args:
         select: dbt module to include in the run
         exclude: dbt module to exclude in the run
-        run_test_after_model: run test afeter run model
+        run_test_after_model: If True, run dbt tests after running each model.
+        run_task_after_model: A Prefect task to run after each model.
+            Must have exactly one required parameter: model_id (str).
         vars: dbt vars
         install_deps: install dbt dependencies, default behavior install deps
     """
@@ -81,5 +85,6 @@ class DbtDagOptions:
     select: Optional[str] = None
     exclude: Optional[str] = None
     run_test_after_model: bool = False
+    run_task_after_model: Optional[Task] = None
     vars: Optional[dict[str, str]] = None
     install_deps: bool = True
