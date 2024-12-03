@@ -4,7 +4,7 @@ from pathlib import Path
 
 import duckdb
 import pytest
-from prefect.task_runners import SequentialTaskRunner
+from prefect.task_runners import ThreadPoolTaskRunner
 from prefect.testing.utilities import prefect_test_harness
 
 from prefect_dbt_flow import dbt_flow
@@ -57,7 +57,7 @@ def test_flow_sample_project(duckdb_db_file: Path):
         flow_kwargs={
             # Ensure only one process has access to the duckdb db
             # file at the same time
-            "task_runner": SequentialTaskRunner(),
+            "task_runner": ThreadPoolTaskRunner(max_workers=1),
         },
     )
 
@@ -91,7 +91,7 @@ def test_flow_sample_project_with_tests(duckdb_db_file: Path):
         flow_kwargs={
             # Ensure only one process has access to the duckdb db
             # file at the same time
-            "task_runner": SequentialTaskRunner(),
+            "task_runner": ThreadPoolTaskRunner(max_workers=1),
         },
     )
 
@@ -125,7 +125,7 @@ def test_flow_sample_project_select(duckdb_db_file: Path):
         flow_kwargs={
             # Ensure only one process has access to the duckdb db
             # file at the same time
-            "task_runner": SequentialTaskRunner(),
+            "task_runner": ThreadPoolTaskRunner(max_workers=1),
         },
     )
 
@@ -153,7 +153,7 @@ def test_flow_sample_project_exclude(duckdb_db_file: Path):
         flow_kwargs={
             # Ensure only one process has access to the duckdb db
             # file at the same time
-            "task_runner": SequentialTaskRunner(),
+            "task_runner": ThreadPoolTaskRunner(max_workers=1),
         },
     )
 
@@ -178,7 +178,7 @@ def test_flow_jaffle_shop(duckdb_db_file: Path):
         flow_kwargs={
             # Ensure only one process has access to the duckdb db
             # file at the same time
-            "task_runner": SequentialTaskRunner(),
+            "task_runner": ThreadPoolTaskRunner(max_workers=1),
         },
     )
 
@@ -207,7 +207,7 @@ def test_flow_sample_project_overrides_new_profile(duckdb_db_file: Path):
         flow_kwargs={
             # Ensure only one process has access to the duckdb db
             # file at the same time
-            "task_runner": SequentialTaskRunner(),
+            "task_runner": ThreadPoolTaskRunner(max_workers=1),
         },
     )
 
@@ -235,7 +235,7 @@ def test_flow_sample_project_overrides_existing_profile(duckdb_db_file: Path):
         flow_kwargs={
             # Ensure only one process has access to the duckdb db
             # file at the same time
-            "task_runner": SequentialTaskRunner(),
+            "task_runner": ThreadPoolTaskRunner(max_workers=1),
         },
     )
 
@@ -257,7 +257,7 @@ def test_flow_sample_project_dont_specify_target(duckdb_db_file: Path):
         flow_kwargs={
             # Ensure only one process has access to the duckdb db
             # file at the same time
-            "task_runner": SequentialTaskRunner(),
+            "task_runner": ThreadPoolTaskRunner(max_workers=1),
         },
     )
 
@@ -288,7 +288,7 @@ def test_flow_sample_project_vars(duckdb_db_file: Path):
         flow_kwargs={
             # Ensure only one process has access to the duckdb db
             # file at the same time
-            "task_runner": SequentialTaskRunner(),
+            "task_runner": ThreadPoolTaskRunner(max_workers=1),
         },
     )
 
@@ -321,7 +321,7 @@ def test_flow_sample_project_install_deps(duckdb_db_file: Path):
         flow_kwargs={
             # Ensure only one process has access to the duckdb db
             # file at the same time
-            "task_runner": SequentialTaskRunner(),
+            "task_runner": ThreadPoolTaskRunner(max_workers=1),
         },
     )
 

@@ -215,7 +215,7 @@ def generate_tasks_dag(
     dag_options: Optional[DbtDagOptions],
     dbt_graph: List[DbtNode],
     run_test_after_model: bool = False,
-) -> None:
+) -> List[PrefectFuture]:
     """
     Generate a Prefect DAG for running and testing dbt models.
 
@@ -262,6 +262,8 @@ def generate_tasks_dag(
             submitted_tasks[node.unique_id] = test_task_future
         else:
             submitted_tasks[node.unique_id] = run_task_future
+
+    return list(submitted_tasks.values())
 
 
 def _get_next_node(

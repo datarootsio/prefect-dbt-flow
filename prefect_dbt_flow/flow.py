@@ -2,6 +2,7 @@
 from typing import Optional
 
 from prefect import Flow, flow
+from prefect.futures import PrefectFutureList
 
 from prefect_dbt_flow.dbt import DbtDagOptions, DbtProfile, DbtProject, graph, tasks
 
@@ -39,12 +40,13 @@ def dbt_flow(
         Returns:
             A prefect flow
         """
-        tasks.generate_tasks_dag(
+        submitted_tasks = tasks.generate_tasks_dag(
             project,
             profile,
             dag_options,
             dbt_graph,
             dag_options.run_test_after_model if dag_options else False,
         )
+        _ = PrefectFutureList(submitted_tasks).result(raise_on_failure=True)
 
     return dbt_flow

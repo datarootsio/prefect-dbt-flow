@@ -14,7 +14,7 @@ keywords = ["dbt", "prefect"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
-prefect = "^2.7"
+prefect = "^3.1"
 
 [tool.poetry.group.dev.dependencies]
 black = ">=23.3,<25.0"
